@@ -1,0 +1,21 @@
+{
+    "name": "graduation-project",
+    "version": "1.0.0",
+    "description": "",
+    "main": "main.js",
+    "type": "module",
+    "dependencies": {
+        "cors": "^2.8.5",
+        "express": "^4.18.2",
+        "mysql2": "^3.1.2",
+        "nodemon": "^2.0.22",
+        "sequelize": "^6.29.0"
+    },
+    "scripts": {
+        "start": "node main.js",
+        "dev": "nodemon main.js"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC"
+}
