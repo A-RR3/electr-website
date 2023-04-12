@@ -15,7 +15,7 @@ const Request = (sequelize) => {
         },
         Reason: {
             type: DataTypes.STRING(100),
-            allowNull: false
+            allowNull: true
         },
 
     }, {

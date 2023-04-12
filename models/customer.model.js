@@ -22,7 +22,12 @@ const Customer = (sequelize) => {
         PlaceOfResidence: {
             type: DataTypes.STRING(60),
             allowNull: false
-        }
+        },
+        id: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+
     }, {
         timestamps: false
     });

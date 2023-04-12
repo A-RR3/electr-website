@@ -9,6 +9,8 @@ import { Sequelize, where } from 'sequelize';
 const PORT = 5000;
 const HOST = '127.0.0.1';
 const app = express();
+app.maxPayload = 50 * 1024 * 1024; // 50 MB
+
 app.use(cors());
 // static assets
 // app.use(express.static('./methods-public'))
@@ -183,7 +185,6 @@ db.sequelize.sync() //or .authenticate
         console.log(`Failed to Sync with DB: ${err.message}`);
     });
 
-
 app.listen(PORT, HOST, () => {
     console.log(`Server is listening on http://${HOST}:${PORT}`)
-})
+});

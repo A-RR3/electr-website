@@ -6,7 +6,9 @@ import Request from "./request.model.js";
 import RequestType from "./request_type.model.js";
 import RequestStatus from "./request_status.model.js";
 import Employee from "./employee.model.js";
-import PropertyTypeModification from "./PTM.model.js";
+import PropertyType from "./PropertyType.model.js";
+import TransferringPoles from "./TransferringPoles.model.js"
+import TenantData from "./TenantData.model.js"
 import News from "./news.model.js";
 
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
@@ -64,8 +66,18 @@ db.Employee.hasMany(
 );
 
 
-db.PropertyTypeModification = PropertyTypeModification(db.sequelize);
-// db.Request.hasOne(db.PropertyTypeModification, { foreignKey: "RequestID", onDelete: "CASCADE", onUpdate: "CASCADE" });
+db.TransferringPoles = TransferringPoles(db.sequelize);
+db.TransferringPoles.belongsTo(db.Request, { foreignKey: "RequestID" });
+
+db.PropertyType = PropertyType(db.sequelize);
+db.PropertyType.belongsTo(db.Request, { foreignKey: "RequestID" });
+
+db.TenantData = TenantData(db.sequelize);
+db.TenantData.belongsTo(db.Request, { foreignKey: "RequestID" });
+
+
+
+
 
 
 db.News = News(db.sequelize);
@@ -75,10 +87,8 @@ db.Employee.hasMany(
         onUpdate: "CASCADE",
     }
 );
-// db.News.belongsTo(db.Employee);
-// db.Customer.sync({ alter: true }).then(() => "Database created");
-// db.sequelize.sync({ alter: true }).then(() => "Database created");
 
 db.sequelize.sync({ alter: true }).then(() => "Database created");
+// await db.Employee.sync({ alter: true });
 
 export default db;

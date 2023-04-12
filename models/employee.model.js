@@ -10,7 +10,6 @@ const Employee = (sequelize) => {
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true,
-            unique: true,
             allowNull: false,
         },
         EmployeeName: {
@@ -23,8 +22,9 @@ const Employee = (sequelize) => {
         },
         id: {
             type: DataTypes.INTEGER,
-            unique: true,
+            allowNull: false
         },
+
         password: {
             type: DataTypes.STRING(30),
         }

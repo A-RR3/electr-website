@@ -3,29 +3,29 @@ import { DataTypes, Sequelize } from "sequelize";
 // This line just to get the autocomplete working!
 let s = new Sequelize({ dialect: 'mysql' });
 
-const PropertyTypeModification = (sequelize) => {
+const TransferringPoles = (sequelize) => {
     s = sequelize;
     // "request" is going to be the table name in DB
-    return s.define("PTM", {
+    return s.define("TransferringPoles", {
         ID: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
             allowNull: false,
             primaryKey: true
         },
-        ElectricianNo: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
+        Footprint: {
+            type: DataTypes.STRING(),
+            allowNull: true,
         },
-        ElectricianName: {
-            type: DataTypes.STRING(50),
-            allowNull: false,
-        },
+        LocationOfPole: {
+            type: DataTypes.STRING(),
+            allowNull: true,
+        }
 
     }, {
         timestamps: false,
-        tableName: "PTM"
+        tableName: "poles-transfer"
     });
 };
 
-export default PropertyTypeModification;
+export default TransferringPoles;
