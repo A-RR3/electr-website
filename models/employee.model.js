@@ -16,7 +16,7 @@ const Employee = (sequelize) => {
             type: DataTypes.STRING(30), //varchar 30
             allowNull: false
         },
-        Department: {
+        role: {
             type: DataTypes.STRING(30),
             allowNull: false
         },

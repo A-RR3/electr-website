@@ -1,9 +1,11 @@
+import { Sequelize } from "sequelize";
 import db from "../models/index.js";
 
 
+
 const create = async(req, res) => {
+
     const type = req.body.appType;
-    console.log(req.body);
     const status = req.body.appStatus;
     const type_id = await db.RequestType.findOne({
         where: {
@@ -26,20 +28,17 @@ const create = async(req, res) => {
     });
 
     await request.save();
-    // .then(data => {
-    //     res.status(201).send(data);
-    // })
-    // .catch(err => {
-    //     res.status(500).send(err.message || "Something went wrong");
-    // });
+
 }
 
 const propertyTypeModification = async(req, res, id) => {
+    console.log(req.body);
+    console.log(req.body.ElectricianName)
     await db.PropertyType.create({
-        ElectricianName: req.body.electricianName,
-        ElectricianNo: req.body.electricianPhoneNumber,
+        ElectricianNo: req.body.electricianNo,
+        ElectricianName: req.body.ElectricianName,
         RequestID: id[0][0].RequestID
-    });
+    })
 
 }
 
@@ -51,29 +50,85 @@ const tenantDataModification = async(req, res, id) => {
 
     // Insert the images into the database
     await db.TenantData.create({
-        TenantImage: filenames[0],
-        TenantName: req.body.beneficiaryName,
-        CustomerImage: filenames[1],
-        RequestID: id[0][0].RequestID
-    });
+            TenantImage: filenames[0],
+            TenantName: req.body.beneficiaryName,
+            CustomerImage: filenames[1],
+            RequestID: id[0][0].RequestID
+        })
+        // .then(data => {
+        //     res.status(201).send(data);
+        // })
+        // .catch(err => {
+        //     res.status(500).send(err.message || "Something went wrong");
+        // });
 }
 
 const transferringPoles = async(req, res, id) => {
     // Get the filenames of the uploaded images
-    const filenames = [req.files.footPrintImage[0].filename, req.files.locationImage[0].filename];
+    const filenames = [req.files.Footprint[0].filename, req.files.LocationOfPole[0].filename];
 
     // Insert the images into the database
     await db.TransferringPoles.create({
-        Footprint: filenames[0],
-        LocationOfPole: filenames[1],
-        RequestID: id[0][0].RequestID
-    });
+            Footprint: filenames[0],
+            LocationOfPole: filenames[1],
+            RequestID: id[0][0].RequestID
+        })
+        // .then(data => {
+        //     res.status(201).send(data);
+        // })
+        // .catch(err => {
+        //     res.status(500).send(err.message || "Something went wrong");
+        // });
 }
 
 
-const findAll = (req, res) => {
-    db.Request.findAll()
-        .then(results => {
+const findAll = async(req, res) => {
+    // db.Request.findAll({
+    //         include: [db.Customer, db.RequestType, db.RequestStatus, db.PropertyType, db.TransferringPoles, db.TenantData],
+    //         attributes: ['RequestID', 'Reason', 'createdAt', 'CustomerName', 'RequestType', 'RequestStatus'],
+    //     })
+    // let services = await db.Service.findAll({
+    //     include: [{
+    //         model: db.Customer,
+    //         attributes: ['CustomerName'],
+    //     }, ]
+    // });
+    // req.services = services;
+    // console.log(req.services);
+    await db.Request.findAll({
+            include: [{
+                    model: db.RequestStatus,
+                    attributes: ['StatusName'],
+                },
+                {
+                    model: db.RequestType,
+                    attributes: ['TypeName'],
+                },
+                {
+                    model: db.TenantData,
+                    attributes: ['TenantName'],
+                },
+                {
+                    model: db.TransferringPoles,
+                    attributes: ['LocationOfPole', 'Footprint'],
+                },
+                {
+                    model: db.PropertyType,
+                    attributes: ['ElectricianName', 'ElectricianNo'],
+                },
+                {
+                    model: db.Service,
+                    include: [{
+                        model: db.Customer,
+                        attributes: ['CustomerName', 'id', 'PhoneNumber'],
+                    }, ],
+                    attributes: ['ServiceID', 'Address']
+
+                },
+            ],
+            attributes: ['RequestID', 'Reason', 'createdAt', ],
+            order: ['RequestID']
+        }).then(results => {
             res.status(200).send(results); // model is a json object
         })
         .catch(err => {
@@ -104,17 +159,21 @@ async function deleteById(req, res, id) {
     }
 }
 
+async function UpdateById(req, res) {
+    const status = req.body.status;
+    const status_id = await db.RequestStatus.findOne({ attributes: ['StatusID'], where: { StatusName: status } });
+    db.Request.update({
+            StatusID: status_id.dataValues.StatusID
+        }, {
+            where: { RequestID: req.body.id }
+        }).then(result => {
+            res.status(202).send(result); // accepted
+        })
+        .catch(err => {
+            res.status(500).send(err.message || "Something went wrong");
+        });
+}
 
-
-// Define the image upload middleware function
-const uploadImagesMiddleware = (req, res, next) => {
-    upload.array('images')(req, res, err => {
-        if (err) {
-            return res.status(400).json({ error: 'An error occurred while uploading the images.' });
-        }
-        next();
-    });
-};
 
 export default {
     create,
@@ -123,5 +182,6 @@ export default {
     getOneRequest,
     propertyTypeModification,
     tenantDataModification,
-    transferringPoles
+    transferringPoles,
+    UpdateById
 }

@@ -26,6 +26,7 @@ const Service = (sequelize) => {
         }
     }, {
         timestamps: true,
+        tableName: 'services',
         updatedAt: false
     });
 };

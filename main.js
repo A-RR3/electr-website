@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import db from './models/index.js';
+import loginRouter from './routes/login.route.js';
 import customerRouter from './routes/customer.route.js';
 import requestRouter from './routes/request.route.js'
 import { customers_data, news, req_status, req_type, services_data } from './data.js';
@@ -15,7 +16,7 @@ app.use(cors());
 // static assets
 // app.use(express.static('./methods-public'))
 
-// parse form data
+// parse data from url
 // app.use(express.urlencoded({ extended: false }))
 
 // parse json
@@ -115,6 +116,7 @@ app.post('/api/services', (req, res) => {
 })
 
 
+app.use("/api/login", loginRouter);
 
 app.use("/api/customers", customerRouter);
 app.post('/api/emp', (req, res) => {

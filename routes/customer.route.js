@@ -1,6 +1,6 @@
 import express from 'express';
-import customerController from '../controllers/customer.controller.js';
 const router = express.Router();
+import customerController from '../controllers/customer.controller.js';
 
 router.post('/', (req, res) => {
     if (!req.body.CustomerID || !req.body.CustomerName) { //validation can be called as a middleware function here

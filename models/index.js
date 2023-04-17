@@ -35,12 +35,28 @@ db.Service.hasMany(
         onUpdate: "CASCADE",
     }
 );
+db.Request.belongsTo(db.Service, { foreignKey: "ServiceID" });
+
+
+// db.Request.hasOne(
+//     db.Service, { foreignKey: "RequestID" }
+// );
+
+
 db.Customer.hasMany(
     db.Service, { foreignKey: "CustomerID" }, {
         onDelete: "SET NULL",
         onUpdate: "CASCADE",
     }
 );
+db.Service.hasOne(
+    db.Customer, { foreignKey: "CustomerID" }, {
+        onDelete: "SET NULL",
+        onUpdate: "CASCADE",
+    }
+);
+
+
 db.RequestType = RequestType(db.sequelize);
 db.Request.belongsTo(
     db.RequestType, { foreignKey: "TypeID" }, {
@@ -67,13 +83,15 @@ db.Employee.hasMany(
 
 
 db.TransferringPoles = TransferringPoles(db.sequelize);
-db.TransferringPoles.belongsTo(db.Request, { foreignKey: "RequestID" });
+db.Request.hasOne(db.TransferringPoles, { foreignKey: "RequestID" });
+
 
 db.PropertyType = PropertyType(db.sequelize);
-db.PropertyType.belongsTo(db.Request, { foreignKey: "RequestID" });
+db.Request.hasOne(db.PropertyType, { foreignKey: "RequestID" });
+
 
 db.TenantData = TenantData(db.sequelize);
-db.TenantData.belongsTo(db.Request, { foreignKey: "RequestID" });
+db.Request.hasOne(db.TenantData, { foreignKey: "RequestID" });
 
 
 

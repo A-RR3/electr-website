@@ -6,7 +6,7 @@ let s = new Sequelize({ dialect: 'mysql' });
 const TenantData = (sequelize) => {
     s = sequelize;
     // "request" is going to be the table name in DB
-    return s.define("TenantData", {
+    return s.define("tenant-data", {
         ID: {
             type: DataTypes.INTEGER,
             autoIncrement: true,

@@ -2,10 +2,11 @@ import express from 'express';
 import requestController from '../controllers/request.controller.js';
 import db from '../models/index.js';
 const router = express.Router();
-import multer from "multer";
 import path from "path";
-import { Sequelize } from "sequelize";
 import Request from "../models/request.model.js";
+import multer from "multer";
+import { log } from 'console';
+import { where } from 'sequelize';
 
 
 
@@ -20,8 +21,6 @@ const upload = multer({
     }),
     limits: { fileSize: 50 * 1024 * 1024 } // 50 MB
 });
-
-
 
 // const upload1 = multer({
 //     storage: multer.diskStorage({
@@ -48,39 +47,62 @@ const upload = multer({
 // });
 
 
+// const logStuff = [logOriginalUrl, logMethod]
+// router.post('/sss', (req, res, next) => {
+//         console.log('Time:', Date.now());
+//         console.log(req.body.formData);
+//         next()
+//     }, (req, res, next) => {
+//         console.log(req.body);
+//         res.send('User Info')
+//     })
+
 //get all requests
 router.get('/', requestController.findAll);
 
 
-router.post('/upload/', (req, res, next) => {
-
-    next();
+// router.use('/create', uploadImagesMiddleware);
+router.use((err, req, res, next) => {
+    res.status(400).send(err.message)
 });
 
-
 //create a request
-router.post('/', upload.fields([
+router.post('/create', upload.fields([
+
+    { name: 'reason', maxCount: 1 },
+    { name: 'serviceID', maxCount: 1 },
+    { name: 'appType', maxCount: 1 },
+    { name: 'EmployeeID', maxCount: 1 },
+    { name: 'appStatus', maxCount: 1 },
+    { name: 'beneficiaryName', maxCount: 1 },
+    { name: 'electricianName', maxCount: 1 },
+    { name: 'ElectricianNo', maxCount: 1 },
+    { name: 'Footprint', maxCount: 1 },
+    { name: 'LocationOfPole', maxCount: 1 },
     { name: 'userIDImage', maxCount: 1 },
-    { name: 'beneficiaryIDImage', maxCount: 1 }
-]), async(req, res) => {
+    { name: 'beneficiaryIDImage', maxCount: 1 },
+
+]), async(req, res, next) => {
 
     try {
         console.log(req.files);
         console.log(req.body);
 
 
-        await requestController.create(req, res);
+        // await requestController.create(req, res);
         const id = await db.sequelize.query(`SELECT RequestID FROM requests ORDER BY createdAt DESC LIMIT 1;`)
+        console.log(id[0][0].RequestID);
         if (req.body.appType == 'تعديل بيانات المستفيد') {
             await requestController.tenantDataModification(req, res, id);
         }
 
         if (req.body.appType == 'نقل الاعمدة المعارضة') {
-            await requestController.tranferringPoles(req, res, id);
+            await requestController.transferringPoles(req, res, id);
+
         }
 
         if (req.body.appType == 'تحويل من تجاري الى منزلي') {
-            await requestController.propertyTypeModification(req.res, id);
+            await requestController.propertyTypeModification(req, res, id);
         }
 
         // Send a response
@@ -91,19 +113,57 @@ router.post('/', upload.fields([
         console.log(e);
         res.status(500).json({ message: 'An error occurred.' });
     }
-
-
-
 });
 
 
+//search by customer name
+router.post('/searchByName', async(req, res) => {
+    const customerName = req.body.customerName;
+    console.log(customerName);
+    const customerID = await db.sequelize.query(`SELECT CustomerID FROM customers WHERE CustomerName = "${customerName}"`);
+    console.log(customerID);
+    console.log(customerID[0][0].CustomerID);
 
-router.get('/:requestId', async(req, res) => {
-    const requestId = req.params.requestId
     try {
-        const request = await requestController.getOneRequest(requestId);
-        req.request = request;
-        res.status(200).json({ request: req.request });
+        const req = await db.Request.findAll({
+            include: [{
+                    model: db.RequestStatus,
+                    attributes: ['StatusName'],
+                },
+                {
+                    model: db.RequestType,
+                    attributes: ['TypeName'],
+                },
+                {
+                    model: db.TenantData,
+                    attributes: ['TenantName'],
+                },
+                {
+                    model: db.TransferringPoles,
+                    attributes: ['LocationOfPole', 'Footprint'],
+                },
+                {
+                    model: db.PropertyType,
+                    attributes: ['ElectricianName', 'ElectricianNo'],
+                },
+                {
+                    model: db.Service,
+                    where: {
+                        CustomerID: customerID[0][0].CustomerID
+                    },
+                    include: [{
+                        model: db.Customer,
+                        attributes: ['CustomerName', 'id', 'PhoneNumber'],
+                    }, ],
+                    attributes: ['ServiceID', 'Address']
+
+                },
+            ],
+            attributes: ['RequestID', 'Reason', 'createdAt', ],
+            order: ['RequestID']
+
+        })
+        res.status(200).send(req);
     } catch (e) {
         console.log(e);
         res.sendStatus(404);
@@ -121,4 +181,13 @@ router.delete('/:requestId', async(req, res) => {
     }
 });
 
+router.put('/', async(req, res) => {
+    try {
+        console.log(req.body);
+        requestController.UpdateById(req, res);
+
+    } catch (error) {
+        res.status(404).send(error); //not found
+    }
+})
 export default router;

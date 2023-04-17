@@ -27,6 +27,9 @@ const Customer = (sequelize) => {
             type: DataTypes.INTEGER,
             allowNull: false
         },
+        password: {
+            type: DataTypes.STRING(30),
+        }
 
     }, {
         timestamps: false
