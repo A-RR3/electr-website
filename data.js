@@ -13,23 +13,9 @@ export const news = [{
 
         body: `عطاء توفير خدمات النظافة في مرافق كهرباء الخليل للمرة الثانية 2023/2 `,
     },
-    {
-        // id: 3,
-        title: 'albany sectional',
-        image: 'https://dl.airtable.com/.attachments/05ecddf7ac8d581ecc3f7922415e7907/a4242abc/product-1.jpeg',
-        // date: '20/2/2023',
-        body: `I'm baby direct trade farm-to-table hell of, YOLO readymade raw denim venmo whatever organic gluten-free kitsch schlitz irony af flexitarian.`,
-    },
-    {
-        // id: 4,
-        title: 'leather sofa',
-        image: 'https://dl.airtable.com/.attachments/3245c726ee77d73702ba8c3310639727/f000842b/product-5.jpg',
-        // date: '19/3/2023',
-        body: `I'm baby direct trade farm-to-table hell of, YOLO readymade raw denim venmo whatever organic gluten-free kitsch schlitz irony af flexitarian.`,
-    },
 ]
 
-const services = [{
+const adds = [{
         id: 1,
         name: 'إعلان قطع التيار الكهربائي ',
         image: 'https://www.hepco-pal.com/application/files/5215/3043/4734/d8e4b052906eee52430bd264f536bb25.jpg',
@@ -44,20 +30,7 @@ const services = [{
 
         desc: `عطاء توفير خدمات النظافة في مرافق كهرباء الخليل للمرة الثانية 2023/2 `,
     },
-    {
-        id: 3,
-        name: 'albany sectional',
-        image: 'https://dl.airtable.com/.attachments/05ecddf7ac8d581ecc3f7922415e7907/a4242abc/product-1.jpeg',
-        date: '20/2/2023',
-        desc: `I'm baby direct trade farm-to-table hell of, YOLO readymade raw denim venmo whatever organic gluten-free kitsch schlitz irony af flexitarian.`,
-    },
-    {
-        id: 4,
-        name: 'leather sofa',
-        image: 'https://dl.airtable.com/.attachments/3245c726ee77d73702ba8c3310639727/f000842b/product-5.jpg',
-        date: '19/3/2023',
-        desc: `I'm baby direct trade farm-to-table hell of, YOLO readymade raw denim venmo whatever organic gluten-free kitsch schlitz irony af flexitarian.`,
-    },
+
 ]
 
 export const req_type = [

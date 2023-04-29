@@ -3,15 +3,16 @@ import db from "../models/index.js";
 import loginController from "../controllers/login.controller.js"
 // const bcrypt = require('bcrypt');
 import bcrypt from 'bcrypt';
-
 const router = express.Router();
 
-router.post('/', async(req, res, next) => {
+router.post('/authenticate', async(req, res, next) => {
     const password = req.body.password;
     const id = req.body.id;
     const employee = await db.Employee.findOne({
         where: { id },
-        attributes: ['role']
+        attributes: [
+            'EmployeeID', 'EmployeeName', 'role', 'id', 'password', 'PhoneNumber'
+        ]
     })
 
     if (!employee) {
@@ -20,7 +21,7 @@ router.post('/', async(req, res, next) => {
         });
         if (customer) {
             // Compare the entered password with the hashed password stored in the database
-            const passwordMatch = bcrypt.compareSync(password, customer.password);
+            const passwordMatch = bcrypt.compare(password, customer.password);
             if (passwordMatch) {
                 req.customer = customer;
                 next();
@@ -34,32 +35,64 @@ router.post('/', async(req, res, next) => {
 
     } else {
         console.log('employee logging in');
-        const passwordMatch = bcrypt.compareSync(password, employee.password);
+        console.log(employee.toJSON());
+        console.log(`"password: ":${password}`);
+        console.log(`"employee.password: ":${employee.toJSON().password}`);
+
+
+        //     function(err, result) {
+        //     if (err) {
+        //         console.log("error:" + err);
+        //     }
+        //     if (result) {
+        //         console.log('Password is correct');
+        //     } else {
+        //         console.log('Password is incorrect');
+        //     }
+        // }
+        const passwordMatch = bcrypt.compare(password, employee.password);
+
         if (passwordMatch) {
             req.employee = employee;
             next();
         } else {
-            res.status(401).json('Incorrect password');
+            return res.status(401).json({ //unauthorized
+                success: false,
+                message: 'Invalid login credentials!'
+            });
         }
     }
-    next();
 });
 
-router.post('/', async(req, res, next) => {
+router.post('/authenticate', async(req, res, next) => {
     if (req.employee) {
         const accessToken = loginController.generateToken(req.employee);
-        // const refreshToken = loginController.refreshToken(req.employee)
-        console.log({ "role": req.employee.role, "employeeID": employee.EmployeeID });
+        const refreshToken = loginController.refreshToken(req.employee)
+        console.log({ "role": req.employee.role, "employeeID": req.employee.EmployeeID });
         /* http only means not available to js more secure than storing refresh Token on local storage 
          or another cookie that is available to javascript*/
 
         res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 })
-        res.json({ accessToken }); //send accessToken as json to frontend
+            //send accessToken as json to frontend
+        res.status(200).json({
+            success: true,
+            message: 'Successfully logged in',
+            token: accessToken,
+            employeeId: req.employee.EmployeeID
+        });
     } else if (req.customer) {
         const accessToken = loginController.generateToken(req.customer);
-        console.log({ "customer": req.customer, "customerID": req.customerID });
+        const refreshToken = loginController.refreshToken(req.customer)
+        res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 })
+        res.status(200).json({
+            success: true,
+            message: 'Successfully logged in',
+            token: accessToken,
+            customerId: req.customer.CustomerID
+        });
+        console.log({ "customer": req.customer, "customerID": req.CustomerID });
     } else {
-        res.status(400).json({ 'message': 'Invalid Credentials' });
+        res.status(401).json({ 'message': 'Invalid Credentials' });
     }
 });
 

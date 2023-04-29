@@ -1,8 +1,7 @@
-import db from "../models/index.js";
-// const jwt = require('jsonwebtoken');
 import jwt from 'jsonwebtoken';
-// require('dotenv').config();
 import { config } from 'dotenv';
+config();
+
 
 function generateToken(user) {
     const token = jwt.sign({ role: user.role }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });

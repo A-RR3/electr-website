@@ -7,14 +7,12 @@ import requestRouter from './routes/request.route.js'
 import employeeRouter from './routes/employee.route.js'
 import { customers_data, news, req_status, req_type, services_data } from './data.js';
 import { Sequelize, where } from 'sequelize';
-// require('dotenv').config();
 import { config } from 'dotenv';
+config();
 
 
-
-// const PORT = process.env.PORT || 3000;
-const PORT = 5000;
-const HOST = '127.0.0.1';
+const PORT = process.env.PORT || 3000;
+const HOST = process.env.HOST;
 const app = express();
 app.maxPayload = 50 * 1024 * 1024; // 50 MB
 
