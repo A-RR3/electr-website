@@ -9,43 +9,31 @@ import { log } from 'console';
 import { where } from 'sequelize';
 
 
-
-const upload = multer({
-    storage: multer.diskStorage({
-        destination: function(req, file, cb) {
-            cb(null, 'uploads/');
-        },
-        filename: function(req, file, cb) {
-            cb(null, Date.now() + '-' + file.originalname);
-        }
-    }),
-    limits: { fileSize: 50 * 1024 * 1024 } // 50 MB
+const storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, 'uploads/');
+    },
+    filename: function(req, file, cb) {
+        cb(null, Date.now() + '-' + file.originalname);
+    }
 });
 
-// const upload1 = multer({
-//     storage: multer.diskStorage({
-//         destination: function(req, file, cb) {
-//             cb(null, '../uploads/');
-//         },
-//         filename: function(req, file, cb) {
-//             cb(null, 'beneficiaryIDImage' + Date.now() + path.extname(file.originalname));
-//         }
-//     }),
-//     limits: { fileSize: 10000000 }
-// });
+const Filter = function(req, file, cb) {
+    // const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+    const allowedTypes = ['image/jpg'];
 
-// const upload2 = multer({
-//     storage: multer.diskStorage({
-//         destination: function(req, file, cb) {
-//             cb(null, '../uploads/');
-//         },
-//         filename: function(req, file, cb) {
-//             cb(null, 'userIDImage' + Date.now() + path.extname(file.originalname));
-//         }
-//     }),
-//     limits: { fileSize: 10000000 }
-// });
+    if (allowedTypes.includes(file.mimetype)) {
+        cb(null, true);
+    } else {
+        cb(new Error('Invalid file type. jpg images are allowed.'));
+    }
+};
 
+const upload = multer({
+    storage: storage,
+    limits: { fileSize: 50 * 1024 * 1024 }, // 50 MB
+    fileFilter: Filter
+});
 
 // const logStuff = [logOriginalUrl, logMethod]
 // router.post('/sss', (req, res, next) => {
@@ -75,10 +63,10 @@ router.post('/create', upload.fields([
     { name: 'EmployeeID', maxCount: 1 },
     { name: 'appStatus', maxCount: 1 },
     { name: 'beneficiaryName', maxCount: 1 },
-    { name: 'electricianName', maxCount: 1 },
-    { name: 'ElectricianNo', maxCount: 1 },
-    { name: 'Footprint', maxCount: 1 },
-    { name: 'LocationOfPole', maxCount: 1 },
+    { name: 'electricianName', maxCount: 1 }, //?
+    { name: 'electricianPhoneNumber', maxCount: 1 }, //?
+    { name: 'footprint', maxCount: 1 },
+    { name: 'locationImage', maxCount: 1 },
     { name: 'userIDImage', maxCount: 1 },
     { name: 'beneficiaryIDImage', maxCount: 1 },
 

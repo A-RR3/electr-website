@@ -4,9 +4,15 @@ import db from './models/index.js';
 import loginRouter from './routes/login.route.js';
 import customerRouter from './routes/customer.route.js';
 import requestRouter from './routes/request.route.js'
+import employeeRouter from './routes/employee.route.js'
 import { customers_data, news, req_status, req_type, services_data } from './data.js';
 import { Sequelize, where } from 'sequelize';
+// require('dotenv').config();
+import { config } from 'dotenv';
 
+
+
+// const PORT = process.env.PORT || 3000;
 const PORT = 5000;
 const HOST = '127.0.0.1';
 const app = express();
@@ -22,13 +28,6 @@ app.use(cors());
 // parse json
 app.use(express.json());
 
-// app.post('/login', (req, res) => {
-// if (name) {
-//     return res.status(200).send(`Welcome ${name}`)
-// }
-
-// res.status(401).send('Please Provide Credentials')
-// })
 app.post('/api/news', (req, res) => {
     news.forEach(item => {
         const news = new db.News(item);
@@ -46,7 +45,6 @@ app.post('/api/news', (req, res) => {
 
 app.get('/api/news', (req, res) => {
     db.News.findAll({
-
             order: Sequelize.col('createdAt')
         })
         .then(results => {
@@ -55,58 +53,18 @@ app.get('/api/news', (req, res) => {
         .catch(err => {
             res.status(500).send(err.message || "Something went wrong");
         });
-    // res.status(200).json({ success: true, data: news })
 })
 
-// app.post('/api/types', (req, res) => {
-//     req_type.forEach(item => {
-//         const types = new db.RequestType(item); //build an obj
-//         types.save()
-//             .then(data => {
-//                 res.status(201).send(data);
-//             })
-//             .catch(err => {
-//                 res.status(500).send(err.message || "Something went wrong");
-//             });
-//     })
-
-// })
-
-// app.post('/api/status', (req, res) => {
-//     req_status.forEach(item => {
-//         db.RequestStatus.create(item).then(data => {
-//                 // res.status(201).send(data);
-//                 console.log(data)
-//             })
-//             .catch(err => {
-//                 res.status(500).send(err.message || "Something went wrong");
-//             });
-//     })
-//     res.send({ success: true });
-// })
 
 
 
 
 
-// app.post('/api/customers', (req, res) => {
-//     customers_data.forEach(item => {
-//         db.Customer.create(item).then(data => {
-//                 // res.status(201).send(data);
-//                 console.log(data)
-//             })
-//             .catch(err => {
-//                 res.status(500).send(err.message || "Something went wrong");
-//             });
-//     })
-//     res.send({ success: true });
-// })
 
 app.post('/api/services', (req, res) => {
     services_data.forEach(item => {
         db.Service.create(item).then(data => {
-                // res.status(201).send(data);
-                console.log(data)
+                res.status(201).send(data);
             })
             .catch(err => {
                 res.status(500).send(err.message || "Something went wrong");
@@ -119,29 +77,9 @@ app.post('/api/services', (req, res) => {
 app.use("/api/login", loginRouter);
 
 app.use("/api/customers", customerRouter);
-app.post('/api/emp', (req, res) => {
-    db.Employee.create({
-            EmployeeName: "wisam",
-            Department: "PRD"
-        })
-        .then(data => {
-            res.status(201).send(data);
-            console.log(data)
-        })
-        .catch(err => {
-            res.status(500).send(err.message || "Something went wrong");
-        });
-})
+app.use("/api/employees", employeeRouter);
 
 app.use('/api/request', requestRouter);
-// app.post('/test', (req, res) => {
-//     const type = req.body.Type;
-
-//     res.send({
-//         success: true,
-//         data
-//     })
-// })
 
 
 // app.post('/api/request', async(req, res) => {

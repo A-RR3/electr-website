@@ -49,7 +49,7 @@ db.Customer.hasMany(
         onUpdate: "CASCADE",
     }
 );
-db.Service.hasOne(
+db.Service.belongsTo(
     db.Customer, { foreignKey: "CustomerID" }, {
         onDelete: "SET NULL",
         onUpdate: "CASCADE",

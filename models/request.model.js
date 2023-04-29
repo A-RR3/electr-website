@@ -17,6 +17,18 @@ const Request = (sequelize) => {
             type: DataTypes.STRING(100),
             allowNull: true
         },
+        Applicant: {
+            type: DataTypes.STRING(50),
+            allowNull: false
+        },
+        ApplicantPhoneNo: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+        Address: {
+            type: DataTypes.STRING(50),
+            allowNull: false
+        }
 
     }, {
         timestamps: true,

@@ -1,5 +1,7 @@
-import { Sequelize } from "sequelize";
+import { Sequelize, DataTypes } from "sequelize";
 import db from "../models/index.js";
+// const fs = require('fs');
+import fs from 'fs'
 
 
 
@@ -35,37 +37,47 @@ const propertyTypeModification = async(req, res, id) => {
     console.log(req.body);
     console.log(req.body.ElectricianName)
     await db.PropertyType.create({
-        ElectricianNo: req.body.electricianNo,
-        ElectricianName: req.body.ElectricianName,
+        ElectricianNo: req.body.electricianPhoneNumber,
+        ElectricianName: req.body.electricianName,
         RequestID: id[0][0].RequestID
     })
 
 }
 
 const tenantDataModification = async(req, res, id) => {
-    console.log(id[0][0].RequestID)
+    console.log('رقم طلب تعديل بيانات المستفيد' + id[0][0].RequestID)
         // Get the filenames of the uploaded images
     const filenames = [req.files.userIDImage[0].filename, req.files.beneficiaryIDImage[0].filename];
     // console.log(filenames);[ '1681257214059-member-1.png', '1681257214060-29.png' ]
 
+    // Read the image file from the file system
+    const tenantImage = fs.readFileSync(`../uploads/${filenames[0]}`);
+    const customerImage = fs.readFileSync(`../uploads/${filenames[1]}`);
+
+    console.log({ tenantImage, customerImage });
     // Insert the images into the database
-    await db.TenantData.create({
-            TenantImage: filenames[0],
-            TenantName: req.body.beneficiaryName,
-            CustomerImage: filenames[1],
-            RequestID: id[0][0].RequestID
-        })
-        // .then(data => {
-        //     res.status(201).send(data);
-        // })
-        // .catch(err => {
-        //     res.status(500).send(err.message || "Something went wrong");
-        // });
+    // await db.TenantData.create({
+    //         TenantImage: filenames[0],
+    //         TenantName: req.body.beneficiaryName,
+    //         CustomerImage: filenames[1],
+    //         RequestID: id[0][0].RequestID
+    //     })
+    // .then(data => {
+    //     res.status(201).send(data);
+    // })
+    // .catch(err => {
+    //     res.status(500).send(err.message || "Something went wrong");
+    // });
+
+    // Convert the binary data to a base64-encoded string
+    // const imageData = result[0].image_data.toString('base64');
+    // Send the base64-encoded string to the frontend
+    //  res.send(imageData);
 }
 
 const transferringPoles = async(req, res, id) => {
     // Get the filenames of the uploaded images
-    const filenames = [req.files.Footprint[0].filename, req.files.LocationOfPole[0].filename];
+    const filenames = [req.files.footprint[0].filename, req.files.locationImage[0].filename];
 
     // Insert the images into the database
     await db.TransferringPoles.create({
@@ -79,6 +91,7 @@ const transferringPoles = async(req, res, id) => {
         // .catch(err => {
         //     res.status(500).send(err.message || "Something went wrong");
         // });
+
 }
 
 
@@ -106,7 +119,7 @@ const findAll = async(req, res) => {
                 },
                 {
                     model: db.TenantData,
-                    attributes: ['TenantName'],
+                    attributes: ['TenantName', 'TenantImage', 'CustomerImage'],
                 },
                 {
                     model: db.TransferringPoles,
@@ -142,22 +155,22 @@ async function getOneRequest(id) {
     return request;
 }
 
-async function deleteById(req, res, id) {
-    const request = await getOneRequest(id);
-    if (request) {
-        request.destroy().then(_ => {
-                res.status.sent(200).send({
-                    'message': 'request deleted'
-                })
-            })
-            .catch(err => res.status(400).send(err)); //bad request
+// async function deleteById(req, res, id) {
+//     const request = await getOneRequest(id);
+//     if (request) {
+//         request.destroy().then(_ => {
+//                 res.status.sent(200).send({
+//                     'message': 'request deleted'
+//                 })
+//             })
+//             .catch(err => res.status(400).send(err)); //bad request
 
-    } else {
-        res.status(404).send({
-            'message': 'request not found'
-        });
-    }
-}
+//     } else {
+//         res.status(404).send({
+//             'message': 'request not found'
+//         });
+//     }
+// }
 
 async function UpdateById(req, res) {
     const status = req.body.status;
@@ -178,7 +191,7 @@ async function UpdateById(req, res) {
 export default {
     create,
     findAll,
-    deleteById,
+    // deleteById,
     getOneRequest,
     propertyTypeModification,
     tenantDataModification,

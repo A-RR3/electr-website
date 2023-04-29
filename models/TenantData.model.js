@@ -14,7 +14,7 @@ const TenantData = (sequelize) => {
             primaryKey: true
         },
         TenantImage: {
-            type: DataTypes.TEXT,
+            type: DataTypes.BLOB,
             allowNull: true,
         },
         TenantName: {
@@ -22,7 +22,7 @@ const TenantData = (sequelize) => {
             allowNull: true,
         },
         CustomerImage: {
-            type: DataTypes.TEXT,
+            type: DataTypes.BLOB,
             allowNull: true,
         },
 

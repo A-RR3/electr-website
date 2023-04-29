@@ -12,6 +12,10 @@ const Employee = (sequelize) => {
             primaryKey: true,
             allowNull: false,
         },
+        PhoneNumber: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
         EmployeeName: {
             type: DataTypes.STRING(30), //varchar 30
             allowNull: false
@@ -22,7 +26,7 @@ const Employee = (sequelize) => {
         },
         id: {
             type: DataTypes.INTEGER,
-            allowNull: false
+            allowNull: false,
         },
 
         password: {
@@ -30,7 +34,14 @@ const Employee = (sequelize) => {
         }
     }, {
         timestamps: false,
-        tableName: 'employee'
+        tableName: 'employee',
+        indexes: [
+            // Define an index on the 'id' field
+            {
+                unique: true,
+                fields: ['id']
+            }
+        ]
     });
 };
 

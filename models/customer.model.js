@@ -9,6 +9,7 @@ const Customer = (sequelize) => {
     return s.define("customer", {
         CustomerID: {
             type: DataTypes.INTEGER,
+            autoIncrement: true,
             primaryKey: true,
         },
         CustomerName: {
@@ -18,6 +19,12 @@ const Customer = (sequelize) => {
         PhoneNumber: {
             type: DataTypes.INTEGER,
             allowNull: false,
+            validate: {
+                notNull: {
+                    msg: 'Please enter you phonenumber',
+                },
+                isNumeric: true
+            }
         },
         PlaceOfResidence: {
             type: DataTypes.STRING(60),
@@ -25,14 +32,28 @@ const Customer = (sequelize) => {
         },
         id: {
             type: DataTypes.INTEGER,
-            allowNull: false
+            allowNull: false,
+            validate: {
+                isNumeric: true
+            }
         },
         password: {
             type: DataTypes.STRING(30),
         }
 
     }, {
-        timestamps: false
+        timestamps: false,
+        indexes: [
+            // Define an index on the 'id' field
+            {
+                unique: true,
+                fields: ['id']
+            },
+            {
+                unique: true,
+                fields: ['CustomerID']
+            }
+        ]
     });
 };
 

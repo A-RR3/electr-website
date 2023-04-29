@@ -1,6 +1,6 @@
 const config = {
     HOST: '127.0.0.1',
-    PORT: 4356,
+    PORT: 4322,
     USER: 'root',
     PASSWORD: '',
     DB: 'db_hebco',

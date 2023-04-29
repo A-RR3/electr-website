@@ -92,31 +92,73 @@ export const req_status = [
 ]
 export const customers_data = [{
         CustomerName: 'rami',
+        PhoneNumber: '059876392',
         PlaceOfResidence: 'ein sara street',
-        PhoneNumber: '06343664335'
+        id: '1432',
+        password: 'EG@534'
+    },
+    {
+        CustomerName: 'fuaad',
+        PhoneNumber: '0592345692',
+        PlaceOfResidence: 'khallat agarbeh',
+        id: '4532',
+        password: 'ER342@'
     },
     {
         CustomerName: 'nermin',
-        PlaceOfResidence: 'magarbeh street',
-        PhoneNumber: '06346664335'
+        PhoneNumber: '0599871222',
+        PlaceOfResidence: 'khallat reyah',
+        id: '8875',
+        password: 'GH%$#23'
+    }
+]
+
+export const employees_data = [{
+        EmployeeName: 'mohannad',
+        role: 'CSE',
+        id: '09474',
+        password: 'ET*&534',
+        PhoneNumber: '059833392',
+    },
+    {
+        EmployeeName: 'ahmad',
+        role: 'Admin',
+        id: '73940',
+        password: 'EuU42@',
+        PhoneNumber: '059345692',
+    },
+    {
+        EmployeeName: 'nermin',
+        role: 'PRE',
+        id: '88752',
+        password: 'SSh%$#23',
+        PhoneNumber: '0599871222',
     }
 ]
 
 export const services_data = [{
         SubscriptionType: 'card',
         Address: 'ein sara',
-        SubscriptionStatus: 'temporarely',
-        CustomerID: '1'
+        SubscriptionStatus: 'temporary',
+        CustomerID: '3'
     },
     {
         SubscriptionType: 'bill',
         Address: 'wad abu rumman',
         SubscriptionStatus: 'permanent',
+        CustomerID: '2'
+    },
+    {
+        SubscriptionType: 'card',
+        Address: 'alharas',
+        SubscriptionStatus: 'temporary',
+        CustomerID: '2'
+    },
+    {
+        SubscriptionType: 'card',
+        Address: 'nemra street',
+        SubscriptionStatus: 'permanent',
         CustomerID: '1'
     },
 
 ]
-
-
-
-// module.exports = { news, services }
