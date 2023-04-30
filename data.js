@@ -89,7 +89,7 @@ export const customers_data = [{
 export const employees_data = [{
         EmployeeName: 'mohannad',
         role: 'CSE',
-        id: '09474',
+        id: '9474',
         password: 'ET*&534',
         PhoneNumber: '059833392',
     },

@@ -14,11 +14,11 @@ const TransferringPoles = (sequelize) => {
             primaryKey: true
         },
         Footprint: {
-            type: DataTypes.BLOB,
+            type: DataTypes.TEXT,
             allowNull: true,
         },
         LocationOfPole: {
-            type: DataTypes.BLOB,
+            type: DataTypes.TEXT,
             allowNull: true,
         }
 

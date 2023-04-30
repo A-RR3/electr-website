@@ -11,7 +11,7 @@ import { where } from 'sequelize';
 
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
-        cb(null, 'uploads/');
+        cb(null, 'uploads');
     },
     filename: function(req, file, cb) {
         cb(null, Date.now() + '-' + file.originalname);
@@ -19,13 +19,13 @@ const storage = multer.diskStorage({
 });
 
 const Filter = function(req, file, cb) {
-    // const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
-    const allowedTypes = ['image/jpg'];
+    // const allowedTypes = ['image/jpeg', 'image/jpg',, 'image/png'];
+    const allowedTypes = ['image/jpeg', 'image/jpg'];
 
     if (allowedTypes.includes(file.mimetype)) {
         cb(null, true);
     } else {
-        cb(new Error('Invalid file type. jpg images are allowed.'));
+        cb(new Error('Invalid file type only jpeg images are allowed.'));
     }
 };
 
@@ -65,10 +65,14 @@ router.post('/create', upload.fields([
     { name: 'beneficiaryName', maxCount: 1 },
     { name: 'electricianName', maxCount: 1 }, //?
     { name: 'electricianPhoneNumber', maxCount: 1 }, //?
-    { name: 'footprint', maxCount: 1 },
+    { name: 'footPrint', maxCount: 1 },
     { name: 'locationImage', maxCount: 1 },
     { name: 'userIDImage', maxCount: 1 },
     { name: 'beneficiaryIDImage', maxCount: 1 },
+    { name: 'applicantName', maxCount: 1 },
+    { name: 'applicantPhoneNumber', maxCount: 1 },
+    { name: 'applicantAddress', maxCount: 1 },
+
 
 ]), async(req, res, next) => {
 
@@ -76,8 +80,7 @@ router.post('/create', upload.fields([
         console.log(req.files);
         console.log(req.body);
 
-
-        // await requestController.create(req, res);
+        await requestController.create(req, res);
         const id = await db.sequelize.query(`SELECT RequestID FROM requests ORDER BY createdAt DESC LIMIT 1;`)
         console.log(id[0][0].RequestID);
         if (req.body.appType == 'تعديل بيانات المستفيد') {
@@ -89,7 +92,7 @@ router.post('/create', upload.fields([
 
         }
 
-        if (req.body.appType == 'تحويل من تجاري الى منزلي') {
+        if (req.body.appType == 'تحويل من مؤقت الى دائم') {
             await requestController.propertyTypeModification(req, res, id);
         }
 

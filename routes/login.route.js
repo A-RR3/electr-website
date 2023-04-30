@@ -5,7 +5,7 @@ import loginController from "../controllers/login.controller.js"
 import bcrypt from 'bcrypt';
 const router = express.Router();
 
-router.post('/authenticate', async(req, res, next) => {
+router.post('/', async(req, res, next) => {
     const password = req.body.password;
     const id = req.body.id;
     const employee = await db.Employee.findOne({
@@ -64,7 +64,7 @@ router.post('/authenticate', async(req, res, next) => {
     }
 });
 
-router.post('/authenticate', async(req, res, next) => {
+router.post('/', async(req, res, next) => {
     if (req.employee) {
         const accessToken = loginController.generateToken(req.employee);
         const refreshToken = loginController.refreshToken(req.employee)
@@ -78,7 +78,8 @@ router.post('/authenticate', async(req, res, next) => {
             success: true,
             message: 'Successfully logged in',
             token: accessToken,
-            employeeId: req.employee.EmployeeID
+            userId: req.employee.EmployeeID,
+            role: req.employee.role
         });
     } else if (req.customer) {
         const accessToken = loginController.generateToken(req.customer);
@@ -88,7 +89,8 @@ router.post('/authenticate', async(req, res, next) => {
             success: true,
             message: 'Successfully logged in',
             token: accessToken,
-            customerId: req.customer.CustomerID
+            userId: req.customer.CustomerID,
+            role: "customer"
         });
         console.log({ "customer": req.customer, "customerID": req.CustomerID });
     } else {
