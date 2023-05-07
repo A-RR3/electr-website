@@ -1,6 +1,4 @@
-import { Sequelize, DataTypes } from "sequelize";
 import db from "../models/index.js";
-// const fs = require('fs');
 import fs from 'fs'
 
 
@@ -114,18 +112,6 @@ const transferringPoles = async(req, res, id) => {
 
 
 const findAll = async(req, res) => {
-    // db.Request.findAll({
-    //         include: [db.Customer, db.RequestType, db.RequestStatus, db.PropertyType, db.TransferringPoles, db.TenantData],
-    //         attributes: ['RequestID', 'Reason', 'createdAt', 'CustomerName', 'RequestType', 'RequestStatus'],
-    //     })
-    // let services = await db.Service.findAll({
-    //     include: [{
-    //         model: db.Customer,
-    //         attributes: ['CustomerName'],
-    //     }, ]
-    // });
-    // req.services = services;
-    // console.log(req.services);
     await db.Request.findAll({
             include: [{
                     model: db.RequestStatus,
@@ -190,11 +176,62 @@ async function getOneRequest(id) {
 //     }
 // }
 
+const viewRequests = async(req, res, customerID) => {
+
+    try {
+        const req = await db.Request.findAll({
+            include: [{
+                    model: db.RequestStatus,
+                    attributes: ['StatusName'],
+                },
+                {
+                    model: db.RequestType,
+                    attributes: ['TypeName'],
+                },
+                {
+                    model: db.TenantData,
+                    attributes: ['TenantName'],
+                },
+                {
+                    model: db.TransferringPoles,
+                    attributes: ['LocationOfPole', 'Footprint'],
+                },
+                {
+                    model: db.PropertyType,
+                    attributes: ['ElectricianName', 'ElectricianNo'],
+                },
+                {
+                    model: db.Service,
+                    where: {
+                        CustomerID: customerID[0][0].CustomerID
+                    },
+                    include: [{
+                        model: db.Customer,
+                        attributes: ['CustomerName', 'id', 'PhoneNumber'],
+                    }, ],
+                    attributes: ['ServiceID', 'Address']
+
+                },
+            ],
+            attributes: ['RequestID', 'Reason', 'createdAt', ],
+            order: ['RequestID']
+
+        })
+        res.status(200).send(req);
+    } catch (e) {
+        console.log(e);
+        res.sendStatus(404);
+    }
+}
+
+
 async function UpdateById(req, res) {
     const status = req.body.status;
+    const empNum = req.body.EmployeeID; ///////////?
     const status_id = await db.RequestStatus.findOne({ attributes: ['StatusID'], where: { StatusName: status } });
     db.Request.update({
-            StatusID: status_id.dataValues.StatusID
+            StatusID: status_id.dataValues.StatusID,
+            EmployeeID: empNum
         }, {
             where: { RequestID: req.body.id }
         }).then(result => {
@@ -214,5 +251,6 @@ export default {
     propertyTypeModification,
     tenantDataModification,
     transferringPoles,
-    UpdateById
+    UpdateById,
+    viewRequests
 }

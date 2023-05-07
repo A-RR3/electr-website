@@ -23,4 +23,6 @@ router.post('/', async function(req, res) {
 
 router.get('/', employeeController.findAll);
 
+router.post('/NewEmployee', employeeController.addEmployee)
+
 export default router;

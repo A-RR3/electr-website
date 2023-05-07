@@ -1,3 +1,4 @@
+import { where } from "sequelize";
 import { customers_data } from "../data.js";
 import db from "../models/index.js";
 import bcrypt from 'bcrypt';
@@ -45,8 +46,66 @@ const deleteById = (req, res) => {
         });
 }
 
+const viewApplications = async(req, res, customerID) => {
+    try {
+        const req = await db.Request.findAll({
+            include: [{
+                    model: db.RequestStatus,
+                    attributes: ['StatusName'],
+                },
+                {
+                    model: db.RequestType,
+                    attributes: ['TypeName'],
+                },
+                {
+                    model: db.Service,
+                    where: {
+                        CustomerID: customerID
+                    },
+
+                    attributes: ['ServiceID', 'Address']
+
+                },
+            ],
+            attributes: ['RequestID', 'createdAt', 'ApplicantName', 'ApplicantPhoneNumber', 'ApplicantAddress'],
+            order: ['RequestID']
+
+        })
+        res.status(200).send(req);
+    } catch (e) {
+        console.log(e);
+        res.sendStatus(404);
+    }
+}
+
+
+const viewServices = async(req, res, customerID) => {
+    try {
+        const req = await db.Service.findAll({
+
+            attributes: [
+                'ServiceID',
+                'createdAt',
+                'SubscriptionType',
+                'Address',
+                'SubscriptionStatus',
+                'createdAt',
+            ],
+            order: ['ServiceID'],
+            where: { CustomerID: customerID },
+
+        })
+        res.status(200).send(req);
+    } catch (e) {
+        console.log(e);
+        res.sendStatus(404);
+    }
+}
+
 export default {
     findAll,
     deleteById,
-    hashAllPasswords
+    hashAllPasswords,
+    viewApplications,
+    viewServices
 }

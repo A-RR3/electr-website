@@ -2,48 +2,11 @@ import express from 'express';
 import requestController from '../controllers/request.controller.js';
 import db from '../models/index.js';
 const router = express.Router();
-import path from "path";
-import Request from "../models/request.model.js";
-import multer from "multer";
-import { log } from 'console';
-import { where } from 'sequelize';
+import imageExtractor from '../middleware/imageMiddleware.js';
 
 
-const storage = multer.diskStorage({
-    destination: function(req, file, cb) {
-        cb(null, 'uploads');
-    },
-    filename: function(req, file, cb) {
-        cb(null, Date.now() + '-' + file.originalname);
-    }
-});
+const upload = imageExtractor();
 
-const Filter = function(req, file, cb) {
-    // const allowedTypes = ['image/jpeg', 'image/jpg',, 'image/png'];
-    const allowedTypes = ['image/jpeg', 'image/jpg'];
-
-    if (allowedTypes.includes(file.mimetype)) {
-        cb(null, true);
-    } else {
-        cb(new Error('Invalid file type only jpeg images are allowed.'));
-    }
-};
-
-const upload = multer({
-    storage: storage,
-    limits: { fileSize: 50 * 1024 * 1024 }, // 50 MB
-    fileFilter: Filter
-});
-
-// const logStuff = [logOriginalUrl, logMethod]
-// router.post('/sss', (req, res, next) => {
-//         console.log('Time:', Date.now());
-//         console.log(req.body.formData);
-//         next()
-//     }, (req, res, next) => {
-//         console.log(req.body);
-//         res.send('User Info')
-//     })
 
 //get all requests
 router.get('/', requestController.findAll);
@@ -56,15 +19,14 @@ router.use((err, req, res, next) => {
 
 //create a request
 router.post('/create', upload.fields([
-
     { name: 'reason', maxCount: 1 },
     { name: 'serviceID', maxCount: 1 },
     { name: 'appType', maxCount: 1 },
     { name: 'EmployeeID', maxCount: 1 },
     { name: 'appStatus', maxCount: 1 },
     { name: 'beneficiaryName', maxCount: 1 },
-    { name: 'electricianName', maxCount: 1 }, //?
-    { name: 'electricianPhoneNumber', maxCount: 1 }, //?
+    { name: 'electricianName', maxCount: 1 },
+    { name: 'electricianPhoneNumber', maxCount: 1 },
     { name: 'footPrint', maxCount: 1 },
     { name: 'locationImage', maxCount: 1 },
     { name: 'userIDImage', maxCount: 1 },
@@ -72,8 +34,6 @@ router.post('/create', upload.fields([
     { name: 'applicantName', maxCount: 1 },
     { name: 'applicantPhoneNumber', maxCount: 1 },
     { name: 'applicantAddress', maxCount: 1 },
-
-
 ]), async(req, res, next) => {
 
     try {
@@ -115,62 +75,23 @@ router.post('/searchByName', async(req, res) => {
     console.log(customerID);
     console.log(customerID[0][0].CustomerID);
 
-    try {
-        const req = await db.Request.findAll({
-            include: [{
-                    model: db.RequestStatus,
-                    attributes: ['StatusName'],
-                },
-                {
-                    model: db.RequestType,
-                    attributes: ['TypeName'],
-                },
-                {
-                    model: db.TenantData,
-                    attributes: ['TenantName'],
-                },
-                {
-                    model: db.TransferringPoles,
-                    attributes: ['LocationOfPole', 'Footprint'],
-                },
-                {
-                    model: db.PropertyType,
-                    attributes: ['ElectricianName', 'ElectricianNo'],
-                },
-                {
-                    model: db.Service,
-                    where: {
-                        CustomerID: customerID[0][0].CustomerID
-                    },
-                    include: [{
-                        model: db.Customer,
-                        attributes: ['CustomerName', 'id', 'PhoneNumber'],
-                    }, ],
-                    attributes: ['ServiceID', 'Address']
-
-                },
-            ],
-            attributes: ['RequestID', 'Reason', 'createdAt', ],
-            order: ['RequestID']
-
-        })
-        res.status(200).send(req);
-    } catch (e) {
-        console.log(e);
-        res.sendStatus(404);
-    }
+    await requestController.viewRequests(req, res, customerID).then(data => {
+        res.status(200).send(data);
+    }).catch((err) => {
+        res.status(500).send(err);
+    })
 });
 
 
-router.delete('/:requestId', async(req, res) => {
+// router.delete('/:requestId', async(req, res) => {
 
-    try {
-        requestController.deleteById(req.params.requestId);
+//     try {
+//         requestController.deleteById(req.params.requestId);
 
-    } catch (error) {
-        res.status(403).send(error); //forbidden
-    }
-});
+//     } catch (error) {
+//         res.status(403).send(error); //forbidden
+//     }
+// });
 
 router.put('/', async(req, res) => {
     try {

@@ -31,7 +31,27 @@ const findAll = (req, res) => {
         });
 };
 
+
+const addEmployee = async(req, res) => {
+    const pwd = await hashPassword(req.body.password);
+    const employee = db.Employee.build({
+        EmployeeName: req.body.empName,
+        role: req.body.role,
+        id: req.body.id,
+        password: pwd,
+        PhoneNumber: req.body.phoneNum
+    }).then(
+        await employee.save().then(
+            res.status(201).send({ 'message': 'Employee Added Successfuly' })
+        )
+    ).catch(err => {
+        res.status(500).send(err.message || "Something went wrong");
+    })
+}
+
 export default {
     findAll,
-    hashAllPasswords
+    hashAllPasswords,
+    addEmployee,
+    hashPassword
 }

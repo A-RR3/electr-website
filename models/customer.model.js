@@ -33,12 +33,15 @@ const Customer = (sequelize) => {
         id: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            validate: {
-                isNumeric: true
-            }
+            // validate: {
+            //     isNumeric: true
+            // }
         },
         password: {
             type: DataTypes.STRING(30),
+        },
+        RefreshToken: {
+            type: DataTypes.TEXT("tiny"),
         }
 
     }, {

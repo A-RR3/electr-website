@@ -25,6 +25,28 @@ router.post('/', async function(req, res) {
 
 router.get('/', customerController.findAll);
 
+router.get('/applications', async(req, res) => {
+
+    const customerID = req.body.userId
+    await customerController.viewApplications(req, res, customerID).then(data => {
+        res.status(200).send(data);
+    }).catch((err) => {
+        res.status(500).send(err);
+    })
+
+});
+
+router.get('/services', async(req, res) => {
+
+    const customerID = req.body.userId
+    await customerController.viewServices(req, res, customerID).then(data => {
+        res.status(200).send(data);
+    }).catch((err) => {
+        res.status(500).send(err);
+    })
+
+});
+
 router.all('*', (req, res) => {
     res.status(404).send('<h1>resource not found</h1>')
 })

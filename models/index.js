@@ -9,7 +9,9 @@ import Employee from "./employee.model.js";
 import PropertyType from "./PropertyType.model.js";
 import TransferringPoles from "./TransferringPoles.model.js"
 import TenantData from "./TenantData.model.js"
-import News from "./news.model.js";
+import Report from "./report.model.js";
+import Advertisement from "./advertisement.model.js";
+
 
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
     host: dbConfig.HOST,
@@ -28,6 +30,8 @@ db.sequelize = sequelize;
 db.Customer = Customer(db.sequelize);
 db.Service = Service(db.sequelize);
 db.Request = Request(db.sequelize);
+db.Report = Report(db.sequelize);
+db.Advertisement = Advertisement(db.sequelize);
 
 db.Service.hasMany(
     db.Request, { foreignKey: "ServiceID" }, {
@@ -82,6 +86,7 @@ db.Employee.hasMany(
 );
 
 
+
 db.TransferringPoles = TransferringPoles(db.sequelize);
 db.Request.hasOne(db.TransferringPoles, { foreignKey: "RequestID" });
 
@@ -94,17 +99,28 @@ db.TenantData = TenantData(db.sequelize);
 db.Request.hasOne(db.TenantData, { foreignKey: "RequestID" });
 
 
-
-
-
-
-db.News = News(db.sequelize);
-db.Employee.hasMany(
-    db.News, { foreignKey: "EmployeeID" }, {
+db.Report.belongsTo(
+    db.Employee, { foreignKey: "EmployeeID" }, {
         onDelete: "SET NULL",
         onUpdate: "CASCADE",
     }
 );
+
+db.Advertisement.belongsTo(
+    db.Employee, { foreignKey: "EmployeeID" }, {
+        onDelete: "SET NULL",
+        onUpdate: "CASCADE",
+    }
+);
+
+
+// db.News = News(db.sequelize);
+// db.Employee.hasMany(
+//     db.News, { foreignKey: "EmployeeID" }, {
+//         onDelete: "SET NULL",
+//         onUpdate: "CASCADE",
+//     }
+// );
 
 db.sequelize.sync({ alter: true }).then(() => "Database created");
 // await db.Employee.sync({ alter: true });

@@ -1,6 +1,6 @@
 import { DataTypes, Sequelize } from "sequelize";
 
-// This line just to get the autocomplete working!
+// This line just to get the autocomplete working
 let s = new Sequelize({ dialect: 'mysql' });
 
 const Employee = (sequelize) => {
@@ -27,10 +27,17 @@ const Employee = (sequelize) => {
         id: {
             type: DataTypes.INTEGER,
             allowNull: false,
+            validate: {
+                isInt: true,
+                len: [9]
+            }
         },
-
         password: {
             type: DataTypes.STRING(30),
+        },
+        endDate: {
+            type: DataTypes.DATEONLY,
+            allowNull: true,
         }
     }, {
         timestamps: false,

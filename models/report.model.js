@@ -3,9 +3,9 @@ import { DataTypes, Sequelize } from "sequelize";
 // This line just to get the autocomplete working!
 let s = new Sequelize({ dialect: 'mysql' });
 
-const News = (sequelize) => {
+const Report = (sequelize) => {
     s = sequelize;
-    return s.define("news", {
+    return s.define("report", {
         ID: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
@@ -20,7 +20,7 @@ const News = (sequelize) => {
             allowNull: false
         },
         image: {
-            type: DataTypes.STRING(),
+            type: DataTypes.TEXT,
             allowNull: false
         },
     }, {
@@ -29,4 +29,4 @@ const News = (sequelize) => {
     });
 };
 
-export default News;
+export default Report;
