@@ -6,6 +6,7 @@ import customerRouter from './routes/customer.route.js';
 import requestRouter from './routes/request.route.js'
 import employeeRouter from './routes/employee.route.js'
 import reportRouter from './routes/report.route.js'
+import refreshRouter from './routes/refresh.route.js'
 // import advertisementRouter from './routes/advertisement.route.js'
 import { services_data } from './data.js';
 import verifyJWT from './middleware/verifyJWT.js';
@@ -26,13 +27,15 @@ const app = express();
 // app.use(cors(CorsOptions));
 
 // built-in middleware to handle urlencoded form data
-app.use(express.urlencoded({ extended: false }))
+app.use(express.urlencoded({ extended: false }));
+
+//middleware for cookies
+app.use(cookieParser());
 
 // built-in middleware to handle json
 app.use(express.json());
 
-//middleware for cookies
-app.use(cookieParser())
+
 
 // app.post('/api/news', (req, res) => {
 //     news.forEach(item => {
@@ -80,7 +83,9 @@ app.post('/api/services', (req, res) => {
 })
 
 app.use('/api/login', loginRouter);
-// app.use(verifyJWT);
+//refresh api will recieve the cookie that has the refresh token and that will issue a new access token once it is expired
+app.use('/refresh', refreshRouter)
+app.use(verifyJWT);
 app.use("/api/customers", customerRouter);
 app.use("/api/employees", employeeRouter);
 app.use('/api/request', requestRouter);

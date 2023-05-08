@@ -27,13 +27,17 @@ const Employee = (sequelize) => {
         id: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            validate: {
-                isInt: true,
-                len: [9]
-            }
+            // validate: {
+            //     isInt: true,
+            //     len: [9]
+            // }
         },
         password: {
             type: DataTypes.STRING(30),
+        },
+
+        RefreshToken: {
+            type: DataTypes.TEXT("tiny"),
         },
         endDate: {
             type: DataTypes.DATEONLY,
@@ -42,13 +46,10 @@ const Employee = (sequelize) => {
     }, {
         timestamps: false,
         tableName: 'employee',
-        indexes: [
-            // Define an index on the 'id' field
-            {
-                unique: true,
-                fields: ['id']
-            }
-        ]
+        indexes: [{
+            unique: true,
+            fields: ['id', 'password']
+        }]
     });
 };
 

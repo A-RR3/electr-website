@@ -9,7 +9,7 @@ function generateAccessToken(id) {
     // return token;
     return new Promise((resolve, reject) => {
         const payload = { userID: id };
-        const options = { expiresIn: '1h' }
+        const options = { expiresIn: '30s' }
         const token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, options, (err, token) => {
             if (err) {
                 console.log(err.message);
@@ -25,7 +25,7 @@ function generateRefreshToken(id) {
     // return token;
     return new Promise((resolve, reject) => {
         const payload = { userID: id };
-        const options = { expiresIn: '7d' }
+        const options = { expiresIn: '1d' }
         const token = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, options, (err, token) => {
             if (err) {
                 console.log(err.message);
@@ -49,15 +49,15 @@ const customerLogin = async(req, res) => {
     console.log(cus.RefreshToken);
     res.cookie('jwt', refreshToken, {
         httpOnly: true, // prevent client-side JavaScript from accessing the cookie
-        sameSite: 'None',
-        secure: true, // only send the cookie over HTTPS
+        // sameSite: 'None',
+        //secure: true, only send the cookie over HTTPS
         maxAge: 7 * 24 * 60 * 60 * 1000 // set the cookie to expire in 7 days
     })
     res.status(200).json({
         success: true,
         message: 'Successfully logged in',
         token: accessToken,
-        refresToken: refreshToken,
+        // refresToken: refreshToken,
         userId: req.customer.CustomerID,
         role: "customer"
     });
