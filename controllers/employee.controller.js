@@ -34,24 +34,39 @@ const findAll = (req, res) => {
 
 const addEmployee = async(req, res) => {
     const pwd = await hashPassword(req.body.password);
-    const employee = db.Employee.build({
-        EmployeeName: req.body.empName,
-        role: req.body.role,
-        id: req.body.id,
-        password: pwd,
-        PhoneNumber: req.body.phoneNum
-    }).then(
-        await employee.save().then(
+    const employee = db.Employee.create({
+            EmployeeName: req.body.empName,
+            role: req.body.role,
+            id: req.body.id,
+            password: pwd,
+            PhoneNumber: req.body.phoneNum
+        })
+        .then(
             res.status(201).send({ 'message': 'Employee Added Successfuly' })
-        )
-    ).catch(err => {
-        res.status(500).send(err.message || "Something went wrong");
-    })
+
+        ).catch(err => {
+            res.status(500).send(err.message || "Something went wrong");
+        })
+}
+const archiveEmployee = async(req, res) => {
+    const empNum = req.body.empNum;
+    const endDate = req.body.endDate;
+    db.Employee.update({
+            endDate: endDate
+        }, {
+            where: { EmployeeID: empNum }
+        }).then(result => {
+            res.status(202).send(result); // accepted
+        })
+        .catch(err => {
+            res.status(500).send(err.message || "Something went wrong");
+        });
 }
 
 export default {
     findAll,
     hashAllPasswords,
     addEmployee,
-    hashPassword
+    hashPassword,
+    archiveEmployee
 }

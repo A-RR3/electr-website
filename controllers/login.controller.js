@@ -9,7 +9,7 @@ function generateAccessToken(id) {
     // return token;
     return new Promise((resolve, reject) => {
         const payload = { userID: id };
-        const options = { expiresIn: '30s' }
+        const options = { expiresIn: '1h' }
         const token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, options, (err, token) => {
             if (err) {
                 console.log(err.message);
@@ -25,7 +25,7 @@ function generateRefreshToken(id) {
     // return token;
     return new Promise((resolve, reject) => {
         const payload = { userID: id };
-        const options = { expiresIn: '1d' }
+        const options = { expiresIn: '7d' }
         const token = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, options, (err, token) => {
             if (err) {
                 console.log(err.message);
@@ -43,7 +43,7 @@ const customerLogin = async(req, res) => {
     await db.Customer.upsert({
         CustomerID: req.customer.CustomerID,
         RefreshToken: refreshToken
-    }).then(result => { console.log(result); })
+    }).then(result => { console.log(result[0]); })
     console.log('3333');
     const cus = await db.Customer.findByPk(req.customer.CustomerID);
     console.log(cus.RefreshToken);
@@ -64,9 +64,37 @@ const customerLogin = async(req, res) => {
 }
 
 
+const employeeLogin = async(req, res) => {
+    const accessToken = await generateAccessToken(req.employee.EmployeeID);
+    const refreshToken = await generateRefreshToken(req.employee.EmployeeID);
+    console.log('employee login');
+    //saving refreshToken with current user
+    await db.Employee.upsert({
+        EmployeeID: req.employee.EmployeeID,
+        RefreshToken: refreshToken
+    }).then(result => { console.log(result[0]); })
+    const emp = await db.Employee.findByPk(req.employee.EmployeeID);
+    res.cookie('jwt', refreshToken, {
+            httpOnly: true, // prevent client-side JavaScript from accessing the cookie
+            // sameSite: 'None',
+            //secure: true, only send the cookie over HTTPS
+            maxAge: 30 * 24 * 60 * 60 * 1000
+        }) //30days / sameSite: 'None', secure: true,24 * 60 * 60 * 1000
+    res.status(200).json({
+        success: true,
+        message: 'Successfully logged in',
+        token: accessToken,
+        // refresToken: refreshToken,
+        userId: req.employee.EmployeeID,
+        role: emp.role
+    });
+}
+
+
 export default {
     generateAccessToken,
     generateRefreshToken,
-    customerLogin
+    customerLogin,
+    employeeLogin
 
 }

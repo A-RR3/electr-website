@@ -23,6 +23,10 @@ const Advertisement = (sequelize) => {
             type: DataTypes.TEXT,
             allowNull: false
         },
+        coverImage: {
+            type: DataTypes.TEXT,
+            allowNull: false
+        }
     }, {
         timestamps: true,
         freezeTableName: true

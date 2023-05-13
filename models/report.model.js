@@ -15,14 +15,14 @@ const Report = (sequelize) => {
             type: DataTypes.STRING(100), //varchar 30
             allowNull: false
         },
-        body: {
-            type: DataTypes.STRING(),
+        pdf: {
+            type: DataTypes.BLOB,
             allowNull: false
         },
-        image: {
+        coverImage: {
             type: DataTypes.TEXT,
             allowNull: false
-        },
+        }
     }, {
         timestamps: true,
         freezeTableName: true

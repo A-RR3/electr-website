@@ -7,12 +7,12 @@ import requestRouter from './routes/request.route.js'
 import employeeRouter from './routes/employee.route.js'
 import reportRouter from './routes/report.route.js'
 import refreshRouter from './routes/refresh.route.js'
-// import advertisementRouter from './routes/advertisement.route.js'
+import advertisementRouter from './routes/advertisement.route.js'
+import logoutRouter from './routes/logout.route.js'
 import { services_data } from './data.js';
 import verifyJWT from './middleware/verifyJWT.js';
 import userAuthentication from './middleware/userAuthentication.js';
 import cookieParser from 'cookie-parser';
-import CorsOptions from 'cors';
 import { Sequelize, where } from 'sequelize';
 import { config } from 'dotenv';
 config();
@@ -24,7 +24,7 @@ const app = express();
 // app.maxPayload = 50 * 1024 * 1024; // 50 MB
 
 //cross origin resource sharing
-// app.use(cors(CorsOptions));
+app.use(cors());
 
 // built-in middleware to handle urlencoded form data
 app.use(express.urlencoded({ extended: false }));
@@ -84,49 +84,20 @@ app.post('/api/services', (req, res) => {
 
 app.use('/api/login', loginRouter);
 //refresh api will recieve the cookie that has the refresh token and that will issue a new access token once it is expired
-app.use('/refresh', refreshRouter)
-app.use(verifyJWT);
+app.use('/api/refresh', refreshRouter)
+app.use('/api/logout', logoutRouter);
+
+// app.use(verifyJWT);
 app.use("/api/customers", customerRouter);
 app.use("/api/employees", employeeRouter);
 app.use('/api/request', requestRouter);
 app.use('/api/report', reportRouter);
-// app.use('/api/advertisement', advertisementRouter);
+app.use('/api/advertisement', advertisementRouter);
 
 
 
-// app.post('/api/request', async(req, res) => {
-
-//     const type = req.body.Type;
-//     console.log(type);
-//     const status = req.body.Status;
-//     const type_id = await db.RequestType.findOne({
-//         where: {
-//             TypeName: type
-//         },
-//         attributes: [
-//             'TypeID'
-//         ]
-//     })
-
-//     const status_id = await db.RequestStatus.findOne({ attributes: ['StatusID'], where: { StatusName: status } })
-
-//     const request = new db.Request({
-//         Reason: req.body.Reason,
-//         EmployeeID: req.body.EmployeeID,
-//         ServiceID: req.body.ServiceID,
-//         TypeID: type_id.dataValues.TypeID,
-//         StatusID: status_id.dataValues.StatusID
-//     });
 
 
-//     request.save()
-//         .then(data => {
-//             res.status(201).send(data);
-//         })
-//         .catch(err => {
-//             res.status(500).send(err.message || "Something went wrong");
-//         });
-// });
 
 
 await db.sequelize.sync() //or .authenticate

@@ -25,4 +25,6 @@ router.get('/', employeeController.findAll);
 
 router.post('/NewEmployee', employeeController.addEmployee)
 
+router.put('/archive/:id', employeeController.archiveEmployee)
+
 export default router;

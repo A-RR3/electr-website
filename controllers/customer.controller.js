@@ -48,7 +48,7 @@ const deleteById = (req, res) => {
 
 const viewApplications = async(req, res, customerID) => {
     try {
-        const req = await db.Request.findAll({
+        const view = await db.Request.findAll({
             include: [{
                     model: db.RequestStatus,
                     attributes: ['StatusName'],
@@ -68,10 +68,11 @@ const viewApplications = async(req, res, customerID) => {
                 },
             ],
             attributes: ['RequestID', 'createdAt', 'ApplicantName', 'ApplicantPhoneNumber', 'ApplicantAddress'],
-            order: ['RequestID']
+            order: ['RequestID'],
+
 
         })
-        res.status(200).send(req);
+        return view
     } catch (e) {
         console.log(e);
         res.sendStatus(404);
@@ -81,7 +82,7 @@ const viewApplications = async(req, res, customerID) => {
 
 const viewServices = async(req, res, customerID) => {
     try {
-        const req = await db.Service.findAll({
+        const result = await db.Service.findAll({
 
             attributes: [
                 'ServiceID',
@@ -95,10 +96,16 @@ const viewServices = async(req, res, customerID) => {
             where: { CustomerID: customerID },
 
         })
-        res.status(200).send(req);
+        return result
+            // .then(result => {
+            //         res.status(200).send(result); // model is a json object
+            //     })
+            //     .catch(err => {
+            //         res.status(404).send(err.message || "Something went wrong");
+            //     });
+            // res.status(200).send(res);
     } catch (e) {
         console.log(e);
-        res.sendStatus(404);
     }
 }
 

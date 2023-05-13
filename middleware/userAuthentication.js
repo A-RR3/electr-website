@@ -1,14 +1,9 @@
 import db from "../models/index.js";
 import bcrypt from 'bcrypt';
-import employeeController from "../controllers/employee.controller.js";
 
 const userAuthentication = async(req, res, next) => {
     const password = req.body.password;
     const id = req.body.id;
-    console.log(id, password);
-    // const encryptedPassword = await employeeController.hashPassword(password);
-    // console.log(encryptedPassword);
-    // console.log(password, id);
     const employee = await db.Employee.findOne({
         where: { id },
         attributes: [
@@ -23,7 +18,6 @@ const userAuthentication = async(req, res, next) => {
     } else if (employee) {
         const passwordMatch = bcrypt.compare(password, employee.password);
         if (!passwordMatch) {
-            console.log('must be a customer');
             checkCustomer(id, password, req, res, next);
         } else {
             req.employee = employee;

@@ -12,7 +12,7 @@ export default function imageExtractor() {
     });
 
     const Filter = function(req, file, cb) {
-        // const allowedTypes = ['image/jpeg', 'image/jpg',, 'image/png'];
+        // const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
         const allowedTypes = ['image/jpeg', 'image/jpg'];
 
         if (allowedTypes.includes(file.mimetype)) {

@@ -27,8 +27,8 @@ router.get('/', customerController.findAll);
 
 router.get('/applications', async(req, res) => {
 
-    const customerID = req.body.userId
-    await customerController.viewApplications(req, res, customerID).then(data => {
+    const userid = req.headers.userid
+    await customerController.viewApplications(req, res, userid).then(data => {
         res.status(200).send(data);
     }).catch((err) => {
         res.status(500).send(err);
@@ -38,8 +38,11 @@ router.get('/applications', async(req, res) => {
 
 router.get('/services', async(req, res) => {
 
-    const customerID = req.body.userId
-    await customerController.viewServices(req, res, customerID).then(data => {
+    const userid = req.headers.userid
+        // const customerID = req.body.Userid
+
+    console.log(req.headers.userid);
+    await customerController.viewServices(req, res, userid).then(data => {
         res.status(200).send(data);
     }).catch((err) => {
         res.status(500).send(err);

@@ -40,7 +40,7 @@ const Employee = (sequelize) => {
             type: DataTypes.TEXT("tiny"),
         },
         endDate: {
-            type: DataTypes.DATEONLY,
+            type: DataTypes.DATE,
             allowNull: true,
         }
     }, {
