@@ -37,7 +37,7 @@ const create = async(req, res) => {
 const SubscriptionStatus = async(req, res, id) => {
     console.log(req.body);
     console.log(req.body.ElectricianName)
-    await db.PropertyType.create({
+    await db.SubscriptionStatus.create({
         ElectricianNo: req.body.electricianPhoneNumber,
         ElectricianName: req.body.electricianName,
         RequestID: id[0][0].RequestID
@@ -126,7 +126,7 @@ const findAll = async(req, res) => {
                 attributes: ['LocationOfPole', 'Footprint'],
             },
             {
-                model: db.PropertyType,
+                model: db.SubscriptionStatus,
                 attributes: ['ElectricianName', 'ElectricianNo'],
             },
             {
@@ -174,7 +174,7 @@ const viewRequests = async(req, res, customerID) => {
                     attributes: ['LocationOfPole', 'Footprint'],
                 },
                 {
-                    model: db.PropertyType,
+                    model: db.SubscriptionStatus,
                     attributes: ['ElectricianName', 'ElectricianNo'],
                 },
                 {

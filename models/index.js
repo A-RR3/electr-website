@@ -6,7 +6,7 @@ import Request from "./request.model.js";
 import RequestType from "./request_type.model.js";
 import RequestStatus from "./request_status.model.js";
 import Employee from "./employee.model.js";
-import PropertyType from "./PropertyType.model.js";
+import SubscriptionStatus from "./SubscriptionStatus.model.js";
 import TransferringPoles from "./TransferringPoles.model.js"
 import TenantData from "./TenantData.model.js"
 import Report from "./report.model.js";
@@ -91,8 +91,8 @@ db.TransferringPoles = TransferringPoles(db.sequelize);
 db.Request.hasOne(db.TransferringPoles, { foreignKey: "RequestID" });
 
 
-db.PropertyType = PropertyType(db.sequelize);
-db.Request.hasOne(db.PropertyType, { foreignKey: "RequestID" });
+db.SubscriptionStatus = SubscriptionStatus(db.sequelize);
+db.Request.hasOne(db.SubscriptionStatus, { foreignKey: "RequestID" });
 
 
 db.TenantData = TenantData(db.sequelize);
