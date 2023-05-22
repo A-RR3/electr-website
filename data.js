@@ -81,7 +81,7 @@ export const customers_data = [{
         CustomerName: 'nermin',
         PhoneNumber: '0599871222',
         PlaceOfResidence: 'khallat reyah',
-        id: '88752',
+        id: '81952',
         password: 'GH%$#23'
     }
 ]
@@ -106,6 +106,13 @@ export const employees_data = [{
         id: '88752',
         password: 'SSh%$#23',
         PhoneNumber: '0599871222',
+    },
+    {
+        "empName": "arwa",
+        "role": "PRE",
+        "id": "9345340008",
+        "password": "KJa567",
+        "phoneNum": "0567453466"
     }
 ]
 

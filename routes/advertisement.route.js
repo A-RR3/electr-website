@@ -5,6 +5,7 @@ import imageExtractor from '../middleware/imageMiddleware.js';
 
 
 const upload = imageExtractor();
+console.log(upload);
 
 
 router.post('/', upload.fields([

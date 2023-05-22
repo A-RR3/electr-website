@@ -2,7 +2,7 @@ import db from "../models/index.js";
 import fs from 'fs'
 
 
-const addAdvertisement = async(req, res) => {
+const addReport = async(req, res) => {
 
     // Get the filename of the uploaded image
     const filename = req.files.pdfReport[0].filename
@@ -13,7 +13,7 @@ const addAdvertisement = async(req, res) => {
     const pdf = fs.readFileSync(`./uploads/${filename}`);
     const coverimage = fs.readFileSync(`./uploads/${coverImg}`);
 
-    console.log({ image, coverimage });
+    console.log({ pdf, coverimage });
 
 
     // Convert the binary data to a base64-encoded string
@@ -21,20 +21,19 @@ const addAdvertisement = async(req, res) => {
     const coverimageData = coverimage.toString('base64');
 
 
-    const report = db.Report.build({
+    const report = db.Report.create({
         title: req.body.title,
         pdf: pdf,
         coverImage: coverimageData,
         EmployeeID: req.body.EmployeeID,
     }).then(
-        await employee.save().then(
-            res.status(201).send({ 'message': 'Report Added Successfuly' })
-        )
+        res.status(201).send({ 'message': 'Report Added Successfuly' })
     ).catch(err => {
-        res.status(500).send(err.message || "Something went wrong");
+        console.log(err.message || "Something went wrong");
+
     })
 }
 
 export default {
-    addAdvertisement
+    addReport
 }

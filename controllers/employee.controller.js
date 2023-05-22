@@ -8,6 +8,7 @@ async function hashPassword(password) {
     const saltRounds = 10;
     const salt = await bcrypt.genSalt(saltRounds);
     const hash = await bcrypt.hash(password, salt);
+    // const hash = await bcrypt.hash(password, 10);
     return hash;
 }
 
@@ -34,7 +35,7 @@ const findAll = (req, res) => {
 
 const addEmployee = async(req, res) => {
     const pwd = await hashPassword(req.body.password);
-    const employee = db.Employee.create({
+    await db.Employee.create({
             EmployeeName: req.body.empName,
             role: req.body.role,
             id: req.body.id,
@@ -42,16 +43,17 @@ const addEmployee = async(req, res) => {
             PhoneNumber: req.body.phoneNum
         })
         .then(
-            res.status(201).send({ 'message': 'Employee Added Successfuly' })
+            res.status(201).send({ 'message': 'Employee Added Successfully' })
 
         ).catch(err => {
-            res.status(500).send(err.message || "Something went wrong");
+            console.log(err.message || "Something went wrong");
+
         })
 }
 const archiveEmployee = async(req, res) => {
     const empNum = req.body.empNum;
     const endDate = req.body.endDate;
-    db.Employee.update({
+    await db.Employee.update({
             endDate: endDate
         }, {
             where: { EmployeeID: empNum }
@@ -59,7 +61,8 @@ const archiveEmployee = async(req, res) => {
             res.status(202).send(result); // accepted
         })
         .catch(err => {
-            res.status(500).send(err.message || "Something went wrong");
+            console.log(err.message || "Something went wrong");
+
         });
 }
 

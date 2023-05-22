@@ -22,11 +22,11 @@ const Request = (sequelize) => {
             allowNull: false
         },
         ApplicantPhoneNumber: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.INTEGER(10),
             allowNull: false
         },
-        ApplicantAddress: {
-            type: DataTypes.STRING(50),
+        Address: {
+            type: DataTypes.STRING(80),
             allowNull: false
         }
 

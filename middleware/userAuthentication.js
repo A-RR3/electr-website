@@ -4,54 +4,82 @@ import bcrypt from 'bcrypt';
 const userAuthentication = async(req, res, next) => {
     const password = req.body.password;
     const id = req.body.id;
+    console.log(password, id);
+
+    // const hash = await hashPassword(password);
+    // res.send(hash);
     const employee = await db.Employee.findOne({
         where: { id },
         attributes: [
-            'EmployeeID', 'EmployeeName', 'id', 'password', 'PhoneNumber', 'role',
-
+            'EmployeeID', 'id', 'password',
+            // 'EmployeeID', 'id', 'password', 'PhoneNumber', 'role', 'EmployeeName',
         ]
-    })
-
+    });
     if (!employee) {
+        console.log(employee);
+        console.log("maybe a customer");
+
         checkCustomer(id, password, req, res, next);
 
     } else if (employee) {
-        const passwordMatch = bcrypt.compare(password, employee.password);
+        console.log("employeer.dataValues.password :" + employee.dataValues.password);
+
+        console.log("he is an employee");
+        const passwordMatch = await bcrypt.compare(`${password}`, employee.dataValues.password);
+        console.log('test');
+        console.log(passwordMatch);
         if (!passwordMatch) {
-            checkCustomer(id, password, req, res, next);
+            res.status(401).send({ 'message': 'Incorrect password' });
         } else {
             req.employee = employee;
             next()
 
         }
     } else {
-        return res.status(401).json({ //unauthorized
+        console.log("not in the database");
+
+        return res.status(401).send({ //unauthorized
             success: false,
             message: 'Invalid Password!'
         });
     }
 }
 
+// async function hashPassword(password) {
+//     const saltRounds = 10;
+//     const salt = await bcrypt.genSalt(saltRounds);
+//     const hash = await bcrypt.hash(password, salt);
+//     return hash;
+// }
 
 
 const checkCustomer = async(id, password, req, res, next) => {
     const customer = await db.Customer.findOne({
         where: { id },
+        attributes: [
+            'CustomerID', 'id', 'password',
+            // 'EmployeeID', 'id', 'password', 'PhoneNumber', 'role', 'EmployeeName',
+        ]
     });
-    console.log(customer.dataValues);
     if (customer) {
         // Compare the entered password with the hashed password stored in the database
-        const passwordMatch = bcrypt.compare(password, customer.password);
-        if (passwordMatch) {
+        console.log(customer);
+        const passwordMatch = await bcrypt.compare(password, customer.dataValues.password);
+        console.log(passwordMatch);
+
+        if (!passwordMatch) {
+            res.status(401).send({ 'message': 'Incorrect password' });
+
+        } else {
             req.customer = customer;
             next()
-        } else {
-            res.status(401).json({ 'message': 'Incorrect password' });
         }
 
-    } else {
+    }
+    if (!customer) {
         next()
     }
+
 }
 
 export default userAuthentication

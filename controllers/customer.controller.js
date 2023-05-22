@@ -28,7 +28,8 @@ const findAll = (req, res) => {
             res.status(200).send(results); // model is a json object
         })
         .catch(err => {
-            res.status(500).send(err.message || "Something went wrong");
+            console.log(err.message || "Something went wrong");
+
         });
 };
 
@@ -42,7 +43,8 @@ const deleteById = (req, res) => {
             res.status(203).send();
         })
         .catch(err => {
-            res.status(500).send(err.message || "Something went wrong");
+            console.log(err.message || "Something went wrong");
+
         });
 }
 
@@ -97,13 +99,6 @@ const viewServices = async(req, res, customerID) => {
 
         })
         return result
-            // .then(result => {
-            //         res.status(200).send(result); // model is a json object
-            //     })
-            //     .catch(err => {
-            //         res.status(404).send(err.message || "Something went wrong");
-            //     });
-            // res.status(200).send(res);
     } catch (e) {
         console.log(e);
     }

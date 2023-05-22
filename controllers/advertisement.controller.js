@@ -7,7 +7,7 @@ const addAdvertisement = async(req, res) => {
     // Get the filename of the uploaded image
     const filename = req.files.image[0].filename
     const coverImg = req.files.coverImage[0].filename
-    console.log(filename);
+    console.log(filename, coverImg);
 
     // Read the image file from the file system
     const image = fs.readFileSync(`./uploads/${filename}`);
@@ -21,19 +21,16 @@ const addAdvertisement = async(req, res) => {
     const imageData = image.toString('base64');
     const coverimageData = coverimage.toString('base64');
 
-
-    const report = db.Report.build({
+    const report = db.Advertisement.create({
         title: req.body.title,
         body: req.body.body,
         image: imageData,
+        coverImage: coverimageData,
         EmployeeID: req.body.EmployeeID,
-        coverImage: coverimageData
     }).then(
-        await employee.save().then(
-            res.status(201).send({ 'message': 'Advertisement Added Successfuly' })
-        )
+        res.status(201).send({ 'message': 'Advertisement Added Successfuly' })
     ).catch(err => {
-        res.status(500).send(err.message || "Something went wrong");
+        console.log(err.message || "Something went wrong");
     })
 }
 

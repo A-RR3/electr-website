@@ -53,7 +53,7 @@ router.post('/create', upload.fields([
         }
 
         if (req.body.appType == 'تحويل من مؤقت الى دائم') {
-            await requestController.propertyTypeModification(req, res, id);
+            await requestController.SubscriptionStatus(req, res, id);
         }
 
         // Send a response
@@ -78,7 +78,7 @@ router.post('/searchByName', async(req, res) => {
     await requestController.viewRequests(req, res, customerID).then(data => {
         res.status(200).send(data);
     }).catch((err) => {
-        res.status(500).send(err);
+        console.log(err.message || "Something went wrong");
     })
 });
 

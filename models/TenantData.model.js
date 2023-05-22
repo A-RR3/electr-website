@@ -18,7 +18,7 @@ const TenantData = (sequelize) => {
             allowNull: true,
         },
         TenantName: {
-            type: DataTypes.STRING(50),
+            type: DataTypes.STRING(60),
             allowNull: true,
         },
         CustomerImage: {

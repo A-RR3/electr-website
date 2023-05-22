@@ -1,5 +1,5 @@
 import express from 'express';
-// import reportController from '../controllers/report.controller.js';
+import reportController from '../controllers/report.controller.js';
 const router = express.Router();
 
 
@@ -17,7 +17,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({
     storage: storage,
-    limits: { fileSize: 50 * 1024 * 1024 }, // 50 MB
+    // limits: { fileSize: 50 * 1024 * 1024 },
     // fileFilter: Filter
 });
 
@@ -29,7 +29,7 @@ router.post('/', upload.fields([
     { name: 'coverImage', maxCount: 1 },
 ]), async(req, res) => {
     try {
-        // await reportController.addReport(req, res);
+        await reportController.addReport(req, res);
 
     } catch (e) {
         console.log(e);

@@ -34,7 +34,7 @@ const create = async(req, res) => {
 
 }
 
-const propertyTypeModification = async(req, res, id) => {
+const SubscriptionStatus = async(req, res, id) => {
     console.log(req.body);
     console.log(req.body.ElectricianName)
     await db.PropertyType.create({
@@ -72,9 +72,7 @@ const tenantDataModification = async(req, res, id) => {
         .then(data => {
             res.status(201).send(data);
         })
-        .catch(err => {
-            res.status(500).send(err.message || "Something went wrong");
-        });
+
 
 
 }
@@ -104,53 +102,49 @@ const transferringPoles = async(req, res, id) => {
         .then(data => {
             res.status(201).send(data);
         })
-        .catch(err => {
-            res.status(500).send(err.message || "Something went wrong");
-        });
+
 
 }
 
 
 const findAll = async(req, res) => {
     await db.Request.findAll({
-            include: [{
-                    model: db.RequestStatus,
-                    attributes: ['StatusName'],
-                },
-                {
-                    model: db.RequestType,
-                    attributes: ['TypeName'],
-                },
-                {
-                    model: db.TenantData,
-                    attributes: ['TenantName', 'TenantImage', 'CustomerImage'],
-                },
-                {
-                    model: db.TransferringPoles,
-                    attributes: ['LocationOfPole', 'Footprint'],
-                },
-                {
-                    model: db.PropertyType,
-                    attributes: ['ElectricianName', 'ElectricianNo'],
-                },
-                {
-                    model: db.Service,
-                    include: [{
-                        model: db.Customer,
-                        attributes: ['CustomerName', 'id', 'PhoneNumber'],
-                    }, ],
-                    attributes: ['ServiceID', 'Address']
+        include: [{
+                model: db.RequestStatus,
+                attributes: ['StatusName'],
+            },
+            {
+                model: db.RequestType,
+                attributes: ['TypeName'],
+            },
+            {
+                model: db.TenantData,
+                attributes: ['TenantName', 'TenantImage', 'CustomerImage'],
+            },
+            {
+                model: db.TransferringPoles,
+                attributes: ['LocationOfPole', 'Footprint'],
+            },
+            {
+                model: db.PropertyType,
+                attributes: ['ElectricianName', 'ElectricianNo'],
+            },
+            {
+                model: db.Service,
+                include: [{
+                    model: db.Customer,
+                    attributes: ['CustomerName', 'id', 'PhoneNumber'],
+                }, ],
+                attributes: ['ServiceID', 'Address']
 
-                },
-            ],
-            attributes: ['RequestID', 'Reason', 'createdAt', 'ApplicantName', 'ApplicantPhoneNumber', 'ApplicantAddress'],
-            order: ['RequestID']
-        }).then(results => {
-            res.status(200).send(results); // model is a json object
-        })
-        .catch(err => {
-            res.status(500).send(err.message || "Something went wrong");
-        });
+            },
+        ],
+        attributes: ['RequestID', 'Reason', 'createdAt', 'ApplicantName', 'ApplicantPhoneNumber', 'ApplicantAddress'],
+        order: ['RequestID']
+    }).then(results => {
+        res.status(200).send(results); // model is a json object
+    })
+
 };
 
 async function getOneRequest(id) {
@@ -158,23 +152,6 @@ async function getOneRequest(id) {
     const request = await db.Request.findByPk(id)
     return request;
 }
-
-// async function deleteById(req, res, id) {
-//     const request = await getOneRequest(id);
-//     if (request) {
-//         request.destroy().then(_ => {
-//                 res.status.sent(200).send({
-//                     'message': 'request deleted'
-//                 })
-//             })
-//             .catch(err => res.status(400).send(err)); //bad request
-
-//     } else {
-//         res.status(404).send({
-//             'message': 'request not found'
-//         });
-//     }
-// }
 
 const viewRequests = async(req, res, customerID) => {
 
@@ -230,16 +207,14 @@ async function UpdateById(req, res) {
     const empNum = req.body.EmployeeID; ///////////?
     const status_id = await db.RequestStatus.findOne({ attributes: ['StatusID'], where: { StatusName: status } });
     db.Request.update({
-            StatusID: status_id.dataValues.StatusID,
-            EmployeeID: empNum
-        }, {
-            where: { RequestID: req.body.id }
-        }).then(result => {
-            res.status(202).send(result); // accepted
-        })
-        .catch(err => {
-            res.status(500).send(err.message || "Something went wrong");
-        });
+        StatusID: status_id.dataValues.StatusID,
+        EmployeeID: empNum
+    }, {
+        where: { RequestID: req.body.id }
+    }).then(result => {
+        res.status(202).send(result); // accepted
+    })
+
 }
 
 
@@ -248,7 +223,7 @@ export default {
     findAll,
     // deleteById,
     getOneRequest,
-    propertyTypeModification,
+    SubscriptionStatus,
     tenantDataModification,
     transferringPoles,
     UpdateById,

@@ -3,10 +3,10 @@ import { DataTypes, Sequelize } from "sequelize";
 // This line just to get the autocomplete working!
 let s = new Sequelize({ dialect: 'mysql' });
 
-const PropertyTypeModification = (sequelize) => {
+const SubscriptionStatus = (sequelize) => {
     s = sequelize;
     // "request" is going to be the table name in DB
-    return s.define("property-type", {
+    return s.define("subscription-status", {
         ID: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
@@ -14,18 +14,18 @@ const PropertyTypeModification = (sequelize) => {
             primaryKey: true
         },
         ElectricianNo: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.INTEGER(10),
             allowNull: true,
         },
         ElectricianName: {
-            type: DataTypes.STRING(50),
+            type: DataTypes.STRING(60),
             allowNull: true,
         },
 
     }, {
         timestamps: false,
-        tableName: "property-type"
+        freezeTableName: true
     });
 };
 
-export default PropertyTypeModification;
+export default SubscriptionStatus;

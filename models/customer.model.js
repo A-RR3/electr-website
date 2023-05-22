@@ -17,7 +17,7 @@ const Customer = (sequelize) => {
             allowNull: false
         },
         PhoneNumber: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.INTEGER(10),
             allowNull: false,
             validate: {
                 notNull: {
@@ -27,18 +27,15 @@ const Customer = (sequelize) => {
             }
         },
         PlaceOfResidence: {
-            type: DataTypes.STRING(60),
+            type: DataTypes.STRING(80),
             allowNull: false
         },
         id: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.INTEGER(9),
             allowNull: false,
-            // validate: {
-            //     isNumeric: true
-            // }
         },
         password: {
-            type: DataTypes.STRING(30),
+            type: DataTypes.STRING(250),
         },
         RefreshToken: {
             type: DataTypes.TEXT("tiny"),
@@ -52,10 +49,6 @@ const Customer = (sequelize) => {
                 unique: true,
                 fields: ['id']
             },
-            {
-                unique: true,
-                fields: ['CustomerID']
-            }
         ]
     });
 };

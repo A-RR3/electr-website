@@ -98,7 +98,12 @@ db.Request.hasOne(db.PropertyType, { foreignKey: "RequestID" });
 db.TenantData = TenantData(db.sequelize);
 db.Request.hasOne(db.TenantData, { foreignKey: "RequestID" });
 
-
+db.Employee.hasMany(
+    db.Report, { foreignKey: "EmployeeID" }, {
+        onDelete: "SET NULL",
+        onUpdate: "CASCADE",
+    }
+);
 db.Report.belongsTo(
     db.Employee, { foreignKey: "EmployeeID" }, {
         onDelete: "SET NULL",
@@ -106,12 +111,20 @@ db.Report.belongsTo(
     }
 );
 
+
+db.Employee.hasMany(
+    db.Advertisement, { foreignKey: "EmployeeID" }, {
+        onDelete: "SET NULL",
+        onUpdate: "CASCADE",
+    }
+);
 db.Advertisement.belongsTo(
     db.Employee, { foreignKey: "EmployeeID" }, {
         onDelete: "SET NULL",
         onUpdate: "CASCADE",
     }
 );
+
 
 
 // db.News = News(db.sequelize);

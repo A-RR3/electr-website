@@ -43,8 +43,7 @@ const customerLogin = async(req, res) => {
     await db.Customer.upsert({
         CustomerID: req.customer.CustomerID,
         RefreshToken: refreshToken
-    }).then(result => { console.log(result[0]); })
-    console.log('3333');
+    });
     const cus = await db.Customer.findByPk(req.customer.CustomerID);
     console.log(cus.RefreshToken);
     res.cookie('jwt', refreshToken, {
@@ -88,6 +87,7 @@ const employeeLogin = async(req, res) => {
         userId: req.employee.EmployeeID,
         role: emp.role
     });
+
 }
 
 

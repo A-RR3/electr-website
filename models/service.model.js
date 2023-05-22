@@ -17,7 +17,7 @@ const Service = (sequelize) => {
             allowNull: false
         },
         Address: {
-            type: DataTypes.STRING(60), //varchar(60)
+            type: DataTypes.STRING(80), //varchar(60)
             allowNull: false
         },
         SubscriptionStatus: {

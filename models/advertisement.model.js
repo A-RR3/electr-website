@@ -12,7 +12,7 @@ const Advertisement = (sequelize) => {
             primaryKey: true,
         },
         title: {
-            type: DataTypes.STRING(100), //varchar 30
+            type: DataTypes.STRING(100),
             allowNull: false
         },
         body: {
