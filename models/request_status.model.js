@@ -13,7 +13,7 @@ const RequestStatus = (sequelize) => {
             primaryKey: true,
         },
         StatusName: {
-            type: DataTypes.STRING(),
+            type: DataTypes.STRING(10),
         },
 
     }, {

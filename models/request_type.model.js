@@ -14,7 +14,7 @@ const RequestType = (sequelize) => {
             primaryKey: true,
         },
         TypeName: {
-            type: DataTypes.STRING(),
+            type: DataTypes.STRING(40),
         },
 
 

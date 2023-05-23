@@ -33,7 +33,7 @@ router.post('/create', upload.fields([
     { name: 'beneficiaryIDImage', maxCount: 1 },
     { name: 'applicantName', maxCount: 1 },
     { name: 'applicantPhoneNumber', maxCount: 1 },
-    { name: 'applicantAddress', maxCount: 1 },
+    { name: 'Address', maxCount: 1 },
 ]), async(req, res, next) => {
 
     try {
@@ -57,7 +57,7 @@ router.post('/create', upload.fields([
         }
 
         // Send a response
-        res.json({ message: 'Your Request has been sent successfully' });
+        // res.json({ message: 'Your Request has been sent successfully' });
 
 
     } catch (e) {

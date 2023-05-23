@@ -9,7 +9,7 @@ const TenantData = (sequelize) => {
     return s.define("tenant-data", {
         ID: {
             type: DataTypes.INTEGER,
-            autoIncrement: true,
+            autoIncrement: false,
             allowNull: false,
             primaryKey: true
         },

@@ -9,7 +9,7 @@ const SubscriptionStatus = (sequelize) => {
     return s.define("subscription-status", {
         ID: {
             type: DataTypes.INTEGER,
-            autoIncrement: true,
+            autoIncrement: false,
             allowNull: false,
             primaryKey: true
         },

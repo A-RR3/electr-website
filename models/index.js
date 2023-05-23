@@ -88,15 +88,15 @@ db.Employee.hasMany(
 
 
 db.TransferringPoles = TransferringPoles(db.sequelize);
-db.Request.hasOne(db.TransferringPoles, { foreignKey: "RequestID" });
+db.Request.hasOne(db.TransferringPoles, { foreignKey: "ID" });
 
 
 db.SubscriptionStatus = SubscriptionStatus(db.sequelize);
-db.Request.hasOne(db.SubscriptionStatus, { foreignKey: "RequestID" });
+db.Request.hasOne(db.SubscriptionStatus, { foreignKey: "ID" });
 
 
 db.TenantData = TenantData(db.sequelize);
-db.Request.hasOne(db.TenantData, { foreignKey: "RequestID" });
+db.Request.hasOne(db.TenantData, { foreignKey: "ID" });
 
 db.Employee.hasMany(
     db.Report, { foreignKey: "EmployeeID" }, {

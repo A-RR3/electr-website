@@ -48,7 +48,7 @@ const deleteById = (req, res) => {
         });
 }
 
-const viewApplications = async(req, res, customerID) => {
+const viewApplications = async(req, res) => {
     try {
         const view = await db.Request.findAll({
             include: [{
@@ -62,7 +62,7 @@ const viewApplications = async(req, res, customerID) => {
                 {
                     model: db.Service,
                     where: {
-                        CustomerID: customerID
+                        CustomerID: userid
                     },
 
                     attributes: ['ServiceID', 'Address']
@@ -77,7 +77,7 @@ const viewApplications = async(req, res, customerID) => {
         return view
     } catch (e) {
         console.log(e);
-        res.sendStatus(404);
+        // res.sendStatus(404);
     }
 }
 

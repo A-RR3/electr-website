@@ -9,7 +9,7 @@ const TransferringPoles = (sequelize) => {
     return s.define("TransferringPoles", {
         ID: {
             type: DataTypes.INTEGER,
-            autoIncrement: true,
+            autoIncrement: false,
             allowNull: false,
             primaryKey: true
         },
