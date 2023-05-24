@@ -50,6 +50,17 @@ const addEmployee = async(req, res) => {
 
         })
 }
+
+const updateEmpPassword = async(req, res) => {
+    const password = req.body.password;
+    const hash = await hashPassword(password);
+    await db.Employee.upsert({
+        id: req.body.id,
+        password: hash
+    }).then(data => {
+        res.status(200).send(data)
+    })
+}
 const archiveEmployee = async(req, res) => {
     const empNum = req.body.empNum;
     const endDate = req.body.endDate;
@@ -58,7 +69,7 @@ const archiveEmployee = async(req, res) => {
         }, {
             where: { EmployeeID: empNum }
         }).then(result => {
-            res.status(202).send(result); // accepted
+            res.status(200).send(result); // ok
         })
         .catch(err => {
             console.log(err.message || "Something went wrong");
@@ -71,5 +82,6 @@ export default {
     hashAllPasswords,
     addEmployee,
     hashPassword,
-    archiveEmployee
+    archiveEmployee,
+    updateEmpPassword
 }

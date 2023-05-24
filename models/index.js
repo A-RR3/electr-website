@@ -11,6 +11,8 @@ import TransferringPoles from "./TransferringPoles.model.js"
 import TenantData from "./TenantData.model.js"
 import Report from "./report.model.js";
 import Advertisement from "./advertisement.model.js";
+import Bill from "./bill.model.js";
+import Installment from "./installment.model.js";
 
 
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
@@ -32,6 +34,8 @@ db.Service = Service(db.sequelize);
 db.Request = Request(db.sequelize);
 db.Report = Report(db.sequelize);
 db.Advertisement = Advertisement(db.sequelize);
+db.Bill = Bill(db.sequelize);
+db.Installment = Installment(db.sequelize)
 
 db.Service.hasMany(
     db.Request, { foreignKey: "ServiceID" }, {
@@ -125,15 +129,21 @@ db.Advertisement.belongsTo(
     }
 );
 
+db.Service.hasMany(
+    db.Bill, { foreignKey: "ServiceID" }, {
+        onDelete: "SET NULL",
+        onUpdate: "CASCADE",
+    }
+);
+db.Bill.belongsTo(db.Service, { foreignKey: "ServiceID" });
 
-
-// db.News = News(db.sequelize);
-// db.Employee.hasMany(
-//     db.News, { foreignKey: "EmployeeID" }, {
-//         onDelete: "SET NULL",
-//         onUpdate: "CASCADE",
-//     }
-// );
+db.Customer.hasMany(
+    db.Installment, { foreignKey: "CustomerID" }, {
+        onDelete: "SET NULL",
+        onUpdate: "CASCADE",
+    }
+);
+db.Installment.belongsTo(db.Customer, { foreignKey: "CustomerID" });
 
 db.sequelize.sync({ alter: true }).then(() => "Database created");
 // await db.Employee.sync({ alter: true });

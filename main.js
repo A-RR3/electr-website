@@ -8,8 +8,10 @@ import employeeRouter from './routes/employee.route.js'
 import reportRouter from './routes/report.route.js'
 import refreshRouter from './routes/refresh.route.js'
 import advertisementRouter from './routes/advertisement.route.js'
+import billRouter from './routes/bill.route.js'
+import installmentRouter from './routes/installment.route.js'
+import signupRouter from './routes/signup.route.js'
 import logoutRouter from './routes/logout.route.js'
-import { services_data } from './data.js';
 import verifyJWT from './middleware/verifyJWT.js';
 import userAuthentication from './middleware/userAuthentication.js';
 import cookieParser from 'cookie-parser';
@@ -93,6 +95,12 @@ app.use("/api/employees", employeeRouter);
 app.use('/api/request', requestRouter);
 app.use('/api/report', reportRouter);
 app.use('/api/advertisement', advertisementRouter);
+app.use('/api/signup', signupRouter);
+app.use('/api/bills', billRouter);
+app.use('/api/installments', installmentRouter);
+
+
+
 
 
 

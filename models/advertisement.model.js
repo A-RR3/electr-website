@@ -26,6 +26,12 @@ const Advertisement = (sequelize) => {
         coverImage: {
             type: DataTypes.TEXT,
             allowNull: false
+        },
+        createdAt: {
+            type: DataTypes.DATEONLY
+        },
+        updatedAt: {
+            type: DataTypes.DATEONLY
         }
     }, {
         timestamps: true,

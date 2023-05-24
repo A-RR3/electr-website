@@ -28,6 +28,12 @@ const Request = (sequelize) => {
         Address: {
             type: DataTypes.STRING(80),
             allowNull: false
+        },
+        createdAt: {
+            type: DataTypes.DATEONLY
+        },
+        updatedAt: {
+            type: DataTypes.DATEONLY
         }
 
     }, {

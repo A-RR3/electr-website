@@ -18,7 +18,7 @@ const SubscriptionStatus = (sequelize) => {
             allowNull: true,
         },
         ElectricianName: {
-            type: DataTypes.STRING(60),
+            type: DataTypes.STRING(40),
             allowNull: true,
         },
 

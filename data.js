@@ -93,52 +93,109 @@ export const employees_data = [{
         password: 'ET*&534',
         PhoneNumber: '059833392',
     },
-    {
-        EmployeeName: 'ahmad',
-        role: 'Admin',
-        id: '73940',
-        password: 'EuU42@',
-        PhoneNumber: '059345692',
-    },
-    {
-        EmployeeName: 'nermin',
-        role: 'PRE',
-        id: '88752',
-        password: 'SSh%$#23',
-        PhoneNumber: '0599871222',
-    },
-    {
-        "empName": "arwa",
-        "role": "PRE",
-        "id": "9345340008",
-        "password": "KJa567",
-        "phoneNum": "0567453466"
-    }
-]
-
-export const services_data = [{
-        SubscriptionType: 'card',
-        Address: 'ein sara',
-        SubscriptionStatus: 'temporary',
-        CustomerID: '3'
-    },
-    {
-        SubscriptionType: 'bill',
-        Address: 'wad abu rumman',
-        SubscriptionStatus: 'permanent',
-        CustomerID: '2'
-    },
-    {
-        SubscriptionType: 'card',
-        Address: 'alharas',
-        SubscriptionStatus: 'temporary',
-        CustomerID: '2'
-    },
-    {
-        SubscriptionType: 'card',
-        Address: 'nemra street',
-        SubscriptionStatus: 'permanent',
-        CustomerID: '1'
-    },
 
 ]
+
+export const bills_data = [{
+        Amount: 140.0,
+        PainAmount: 140.0,
+        ServiceID: 4
+    },
+    {
+        Amount: 200.0,
+        PainAmount: 200.0,
+        ServiceID: 4
+    }, {
+        Amount: 50.0,
+        PainAmount: 50.0,
+        ServiceID: 4
+    }, {
+        Amount: 250.0,
+        PainAmount: 250.0,
+        ServiceID: 5
+    }, {
+        Amount: 50.0,
+        PainAmount: 50.0,
+        ServiceID: 5
+    }, {
+        Amount: 50.0,
+        PainAmount: 50.0,
+        ServiceID: 5
+    },
+    {
+        Amount: 250.0,
+        PainAmount: 250.0,
+        ServiceID: 7
+    }, {
+        Amount: 50.0,
+        PainAmount: 50.0,
+        ServiceID: 7
+    }, {
+        Amount: 50.0,
+        PainAmount: 50.0,
+        ServiceID: 7
+    },
+]
+
+
+export const installment_data = [{
+    Type: "رسوم اطفاء",
+    InstallmentNumber: 99999,
+    Amount: 3.0,
+    PaymentTimesNumber: 45,
+    CustomerID: 2
+}, {
+    Type: "رسوم اطفاء",
+    InstallmentNumber: 99999,
+    Amount: 3.0,
+    PaymentTimesNumber: 45,
+    CustomerID: 1
+}, {
+    Type: "رسوم اطفاء",
+    InstallmentNumber: 99999,
+    Amount: 3.0,
+    PaymentTimesNumber: 45,
+    CustomerID: 3
+}, {
+    Type: "شحنة ابتدائية",
+    InstallmentNumber: 1,
+    Amount: 100,
+    PaymentTimesNumber: 1,
+    CustomerID: 1
+}, {
+    Type: "شحنة ابتدائية",
+    InstallmentNumber: 1,
+    Amount: 100,
+    PaymentTimesNumber: 1,
+    CustomerID: 2
+}, {
+    Type: "شحنة ابتدائية",
+    InstallmentNumber: 1,
+    Amount: 100,
+    PaymentTimesNumber: 1,
+    CustomerID: 3
+}, {
+    Type: "رسوم نفايات",
+    InstallmentNumber: 5,
+    Amount: 78,
+    PaymentTimesNumber: 5,
+    CustomerID: 1
+}, {
+    Type: "رسوم نفايات",
+    InstallmentNumber: 5,
+    Amount: 78,
+    PaymentTimesNumber: 5,
+    CustomerID: 2
+}, {
+    Type: "رسوم نفايات",
+    InstallmentNumber: 5,
+    Amount: 78,
+    PaymentTimesNumber: 5,
+    CustomerID: 3
+}, {
+    Type: "انارة شوارع",
+    InstallmentNumber: 7,
+    Amount: 2,
+    PaymentTimesNumber: 6,
+    CustomerID: 1
+}]

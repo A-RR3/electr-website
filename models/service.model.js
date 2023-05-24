@@ -23,6 +23,12 @@ const Service = (sequelize) => {
         SubscriptionStatus: {
             type: DataTypes.CHAR(9), //temporary ,permanent
             allowNull: false
+        },
+        createdAt: {
+            type: DataTypes.DATEONLY
+        },
+        updatedAt: {
+            type: DataTypes.DATEONLY
         }
     }, {
         timestamps: true,

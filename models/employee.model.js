@@ -13,7 +13,7 @@ const Employee = (sequelize) => {
             allowNull: false,
         },
         EmployeeName: {
-            type: DataTypes.STRING(60),
+            type: DataTypes.STRING(40),
             allowNull: false
         },
         role: {
@@ -39,7 +39,7 @@ const Employee = (sequelize) => {
             allowNull: true,
         },
         endDate: {
-            type: DataTypes.DATE,
+            type: DataTypes.DATEONLY,
             allowNull: true,
         }
     }, {

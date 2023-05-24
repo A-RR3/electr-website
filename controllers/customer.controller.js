@@ -2,6 +2,7 @@ import { where } from "sequelize";
 import { customers_data } from "../data.js";
 import db from "../models/index.js";
 import bcrypt from 'bcrypt';
+import SubscriptionStatus from "../models/SubscriptionStatus.model.js";
 
 
 // Define a helper function to hash the password using bcrypt
@@ -23,7 +24,12 @@ async function hashAllPasswords() {
 }
 
 const findAll = (req, res) => {
-    db.Customer.findAll()
+    db.Customer.findAll({
+            include: [{ model: db.Service, attributes: ['SubscriptionType', 'SubscriptionStatus'] }],
+            attributes: ['CustomerID', 'CustomerName', 'PhoneNumber', 'PlaceOfResidence'],
+            order: ['CustomerID'],
+            where: { signedup: 1 },
+        })
         .then(results => {
             res.status(200).send(results); // model is a json object
         })
@@ -48,7 +54,7 @@ const deleteById = (req, res) => {
         });
 }
 
-const viewApplications = async(req, res) => {
+const viewApplications = async(req, res, customerID) => {
     try {
         const view = await db.Request.findAll({
             include: [{
@@ -61,23 +67,19 @@ const viewApplications = async(req, res) => {
                 },
                 {
                     model: db.Service,
-                    where: {
-                        CustomerID: userid
-                    },
+                    attributes: ['CustomerID', 'Address', 'ServiceID'],
+                    where: { CustomerID: customerID },
 
-                    attributes: ['ServiceID', 'Address']
 
                 },
             ],
-            attributes: ['RequestID', 'createdAt', 'ApplicantName', 'ApplicantPhoneNumber', 'ApplicantAddress'],
+            attributes: ['RequestID', 'ServiceID', 'createdAt'],
             order: ['RequestID'],
-
 
         })
         return view
     } catch (e) {
         console.log(e);
-        // res.sendStatus(404);
     }
 }
 

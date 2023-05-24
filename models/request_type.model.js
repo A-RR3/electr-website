@@ -9,7 +9,6 @@ const RequestType = (sequelize) => {
     return s.define("request_type", {
         TypeID: {
             type: DataTypes.INTEGER,
-            defaultValue: DataTypes.UUIDV1,
             autoIncrement: true,
             primaryKey: true,
         },

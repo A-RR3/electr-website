@@ -26,5 +26,6 @@ router.get('/', employeeController.findAll);
 router.post('/NewEmployee', employeeController.addEmployee)
 
 router.put('/archive/:id', employeeController.archiveEmployee)
+router.patch('/updateEmpPassword/:id', employeeController.updateEmpPassword)
 
 export default router;

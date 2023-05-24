@@ -13,7 +13,7 @@ const Customer = (sequelize) => {
             primaryKey: true,
         },
         CustomerName: {
-            type: DataTypes.STRING(60),
+            type: DataTypes.STRING(40),
             allowNull: false
         },
         PhoneNumber: {
@@ -36,9 +36,14 @@ const Customer = (sequelize) => {
         },
         password: {
             type: DataTypes.STRING(250),
+            allowNull: true,
         },
         RefreshToken: {
             type: DataTypes.TEXT("tiny"),
+        },
+        signedup: {
+            type: DataTypes.INTEGER(1),
+            defaultValue: 0,
         }
 
     }, {

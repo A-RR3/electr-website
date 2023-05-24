@@ -34,7 +34,9 @@ router.get('/applications', async(req, res) => {
     await customerController.viewApplications(req, res, userid).then(data => {
         res.status(200).send(data);
     }).catch((err) => {
-        res.status(500).send(err);
+        // res.status(500).send(err);
+        console.log(err.message || "Something went wrong");
+
     })
 
 });

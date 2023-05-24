@@ -156,7 +156,7 @@ const findAll = async(req, res) => {
 
             },
         ],
-        attributes: ['RequestID', 'Reason', 'createdAt', 'ApplicantName', 'ApplicantPhoneNumber', 'ApplicantAddress'],
+        attributes: ['RequestID', 'Reason', 'createdAt', 'ApplicantName', 'ApplicantPhoneNumber', 'Address'],
         order: ['RequestID']
     }).then(results => {
         res.status(200).send(results); // model is a json object
