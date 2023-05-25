@@ -38,4 +38,9 @@ router.post('/', upload.fields([
 
 });
 
+router.get('/', async(req, res) => {
+    await reportController.viewReport(req, res).then(data => {
+        res.status(200).send(data)
+    })
+})
 export default router;

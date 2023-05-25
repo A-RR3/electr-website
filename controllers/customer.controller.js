@@ -83,6 +83,16 @@ const viewApplications = async(req, res, customerID) => {
     }
 }
 
+const updateCustomerPassword = async(req, res) => {
+    const password = req.body.password;
+    const hash = await hashPassword(password);
+    await db.Customer.upsert({
+        id: req.body.id,
+        password: hash
+    }).then(data => {
+        res.status(200).send(data)
+    })
+}
 
 const viewServices = async(req, res, customerID) => {
     try {
@@ -111,5 +121,6 @@ export default {
     deleteById,
     hashAllPasswords,
     viewApplications,
-    viewServices
+    viewServices,
+    updateCustomerPassword
 }

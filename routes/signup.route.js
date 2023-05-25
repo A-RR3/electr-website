@@ -5,10 +5,12 @@ import { checkSignUp } from '../controllers/signup.controller.js';
 
 const router = express.Router();
 
-router.patch('/', checkSignUp, (req, res) => {
+router.patch('/', checkSignUp, async(req, res) => {
     try {
-        signupController.makeAccount
-        res.status(200).send({ message: "Signed Up Successfully" });
+        await signupController.makeAccount(req, res).then(
+            res.status(200).send({ message: "Signed Up Successfully" })
+        )
+
     } catch (e) {
         console.log(e)
     }

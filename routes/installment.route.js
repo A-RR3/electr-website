@@ -16,7 +16,9 @@ router.post('/', async(req, res) => {
 
 router.get('/', async(req, res) => {
     try {
-        await installmentController.viewInstallments(req, res).then(data => {
+        const userid = req.headers.userid
+
+        await installmentController.viewInstallments(req, res, userid).then(data => {
                 res.status(200).send(data)
             }
 

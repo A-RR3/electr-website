@@ -3,7 +3,7 @@ import fs from 'fs'
 
 
 const addAdvertisement = async(req, res) => {
-
+    console.log(req.files);
     // Get the filename of the uploaded image
     const filename = req.files.image[0].filename
     const coverImg = req.files.coverImage[0].filename
@@ -26,7 +26,7 @@ const addAdvertisement = async(req, res) => {
         body: req.body.body,
         image: imageData,
         coverImage: coverimageData,
-        EmployeeID: req.body.EmployeeID,
+        EmployeeID: req.body.empNum,
     }).then(
         res.status(201).send({ 'message': 'Advertisement Added Successfuly' })
     ).catch(err => {
@@ -34,6 +34,11 @@ const addAdvertisement = async(req, res) => {
     })
 }
 
+const viewAdvertisement = async(req, res) => {
+    const news = await db.Advertisement.findAll()
+    return news
+}
 export default {
-    addAdvertisement
+    addAdvertisement,
+    viewAdvertisement
 }

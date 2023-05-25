@@ -15,7 +15,7 @@ import logoutRouter from './routes/logout.route.js'
 import verifyJWT from './middleware/verifyJWT.js';
 import userAuthentication from './middleware/userAuthentication.js';
 import cookieParser from 'cookie-parser';
-import { Sequelize, where } from 'sequelize';
+import { Sequelize } from 'sequelize';
 import { config } from 'dotenv';
 config();
 

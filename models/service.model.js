@@ -13,7 +13,7 @@ const Service = (sequelize) => {
             primaryKey: true
         },
         SubscriptionType: {
-            type: DataTypes.CHAR(4), //bill or card
+            type: DataTypes.STRING(6), //bill or card
             allowNull: false
         },
         Address: {
@@ -21,7 +21,7 @@ const Service = (sequelize) => {
             allowNull: false
         },
         SubscriptionStatus: {
-            type: DataTypes.CHAR(9), //temporary ,permanent
+            type: DataTypes.CHAR(4), //temporary ,permanent
             allowNull: false
         },
         createdAt: {

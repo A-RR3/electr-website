@@ -17,11 +17,8 @@ router.post('/', async(req, res) => {
 
 router.get('/', async(req, res) => {
     try {
-        await billController.viewBills(req, res).then(data => {
-                res.status(200).send(data)
-            }
-
-        )
+        const userid = req.headers.userid
+        await billController.viewBills(req, res, userid)
     } catch (e) {
         console.log(e)
     }

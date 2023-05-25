@@ -1,5 +1,7 @@
 import db from "../models/index.js";
 import { installment_data } from "../data.js";
+import { Sequelize } from 'sequelize';
+
 
 const installments = async(req, res) => {
     const array = installment_data
@@ -15,8 +17,12 @@ const installments = async(req, res) => {
 
 }
 
-const viewInstallments = async(req, res) => {
-    await db.Installment.findAll({ order: Sequelize.col('createdAt') })
+const viewInstallments = async(req, res, customerID) => {
+    const data = await db.Installment.findAll({
+        where: { CustomerID: customerID },
+        order: Sequelize.col('createdAt')
+    })
+    return data
 }
 
 export function generateUniqueNumber() {

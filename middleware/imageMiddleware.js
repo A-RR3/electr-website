@@ -13,12 +13,12 @@ export default function imageExtractor() {
 
     const Filter = function(req, file, cb) {
         // const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
-        const allowedTypes = ['image/jpeg', 'image/jpg'];
+        const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
 
         if (allowedTypes.includes(file.mimetype)) {
             cb(null, true);
         } else {
-            cb(new Error('Invalid file type only jpeg /jpg images are allowed'));
+            cb(new Error('Invalid file type '));
         }
     };
 

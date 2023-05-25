@@ -44,11 +44,6 @@ router.get('/applications', async(req, res) => {
 router.get('/services', async(req, res) => {
 
     const userid = req.headers.userid
-    console.log(userid)
-
-    // const customerID = req.body.Userid
-
-    console.log(req.headers.userid);
     await customerController.viewServices(req, res, userid).then(data => {
         res.status(200).send(data);
     }).catch((err) => {
@@ -56,6 +51,8 @@ router.get('/services', async(req, res) => {
     })
 
 });
+
+router.patch('/updateCustomerPassword', customerController.updateCustomerPassword)
 
 router.all('*', (req, res) => {
     res.status(404).send('<h1>resource not found</h1>')

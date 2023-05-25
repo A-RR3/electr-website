@@ -53,16 +53,20 @@ const SubscriptionStatus = async(req, res, id) => {
 }
 
 const tenantDataModification = async(req, res, id) => {
+    console.log(11);
     console.log(req.files);
 
     // console.log('رقم طلب تعديل بيانات المستفيد' + id[0][0].RequestID)
     // Get the filenames of the uploaded images
     const filenames = [req.files.userIDImage[0].filename, req.files.beneficiaryIDImage[0].filename];
+    console.log(12);
+
     console.log(filenames); //[ '1681257214059-member-1.png', '1681257214060-29.png' ]
 
     // Read the image file from the file system
     const userImage = fs.readFileSync(`./uploads/${filenames[0]}`);
     const tenantImage = fs.readFileSync(`./uploads/${filenames[1]}`);
+    console.log(13);
     console.log({ userImage, tenantImage });
 
     // Convert the binary data to a base64-encoded string
@@ -70,6 +74,8 @@ const tenantDataModification = async(req, res, id) => {
 
     const userImageData = userImage.toString('base64');
     const tenantImageData = tenantImage.toString('base64');
+    console.log(14);
+
     console.log({ userImageData, tenantImageData })
         // Insert the images into the database
     const request = new db.TenantData({
@@ -83,7 +89,7 @@ const tenantDataModification = async(req, res, id) => {
         .then(data => {
             res.status(201).send({
                 message: "Your request has been sent successfully",
-                ID: data
+                ID: data.ID
             })
         })
 
@@ -116,7 +122,7 @@ const transferringPoles = async(req, res, id) => {
         .then(data => {
             res.status(201).send({
                 message: "Your request has been sent successfully",
-                ID: data
+                ID: data.ID
             })
         })
 

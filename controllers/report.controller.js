@@ -25,7 +25,7 @@ const addReport = async(req, res) => {
         title: req.body.title,
         pdf: pdf,
         coverImage: coverimageData,
-        EmployeeID: req.body.EmployeeID,
+        EmployeeID: req.body.empNum,
     }).then(
         res.status(201).send({ 'message': 'Report Added Successfuly' })
     ).catch(err => {
@@ -34,6 +34,12 @@ const addReport = async(req, res) => {
     })
 }
 
+
+const viewReport = async(req, res) => {
+    const reports = await db.Report.findAll()
+    return reports
+}
 export default {
-    addReport
+    addReport,
+    viewReport
 }

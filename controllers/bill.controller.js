@@ -1,5 +1,7 @@
 import db from "../models/index.js";
 import { bills_data } from "../data.js";
+import { Sequelize } from 'sequelize';
+
 
 const bills = async(req, res) => {
     const array = bills_data
@@ -13,8 +15,22 @@ const bills = async(req, res) => {
 
 }
 
-const viewBills = async(req, res) => {
-    await db.Bill.findAll({ order: Sequelize.col('createdAt') })
+const viewBills = async(req, res, customerID) => {
+    await db.Bill.findAll({
+            include: [{
+                model: db.Service,
+                attributes: ['CustomerID', 'Address'],
+                where: { CustomerID: customerID }
+            }],
+            order: Sequelize.col('createdAt')
+        },
+
+
+    ).then(data => {
+            res.status(200).send(data)
+        }
+
+    )
 }
 
 export function generateUniqueNumber() {

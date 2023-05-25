@@ -17,7 +17,7 @@ const Customer = (sequelize) => {
             allowNull: false
         },
         PhoneNumber: {
-            type: DataTypes.INTEGER(10),
+            type: DataTypes.BIGINT(10),
             allowNull: false,
             validate: {
                 notNull: {
@@ -31,11 +31,11 @@ const Customer = (sequelize) => {
             allowNull: false
         },
         id: {
-            type: DataTypes.INTEGER(9),
+            type: DataTypes.BIGINT(9),
             allowNull: false,
         },
         password: {
-            type: DataTypes.STRING(250),
+            type: DataTypes.STRING(150),
             allowNull: true,
         },
         RefreshToken: {

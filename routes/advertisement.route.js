@@ -14,6 +14,7 @@ router.post('/', upload.fields([
 
 ]), async(req, res) => {
     try {
+        console.log(req.files)
         await advertisementController.addAdvertisement(req, res);
 
     } catch (e) {
@@ -22,5 +23,11 @@ router.post('/', upload.fields([
     }
 
 });
+
+router.get('/', async(req, res) => {
+    await advertisementController.viewAdvertisement(req, res).then(data => {
+        res.status(200).send(data)
+    })
+})
 
 export default router;

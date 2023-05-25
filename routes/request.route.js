@@ -62,7 +62,7 @@ router.post('/create', upload.fields([
 
     } catch (e) {
         console.log(e);
-        res.status(500).json({ message: 'An error occurred.' });
+        // res.status(500).json({ message: 'An error occurred.' });
     }
 });
 
@@ -82,16 +82,6 @@ router.post('/searchByName', async(req, res) => {
     })
 });
 
-
-// router.delete('/:requestId', async(req, res) => {
-
-//     try {
-//         requestController.deleteById(req.params.requestId);
-
-//     } catch (error) {
-//         res.status(403).send(error); //forbidden
-//     }
-// });
 
 router.put('/', async(req, res) => {
     try {
