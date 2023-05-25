@@ -25,7 +25,7 @@ async function hashAllPasswords() {
 
 const findAll = (req, res) => {
     db.Customer.findAll({
-            include: [{ model: db.Service, attributes: ['SubscriptionType', 'SubscriptionStatus'] }],
+            include: [{ model: db.Service, attributes: ['ServiceID', 'Address', 'SubscriptionType', 'createdAt', 'SubscriptionStatus'] }],
             attributes: ['CustomerID', 'CustomerName', 'PhoneNumber', 'PlaceOfResidence'],
             order: ['CustomerID'],
             where: { signedup: 1 },

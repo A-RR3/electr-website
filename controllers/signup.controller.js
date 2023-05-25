@@ -12,12 +12,13 @@ export const checkSignUp = async(req, res, next) => {
         where: { id: id }
     })
     if (!foundCustomer) {
-        res.status(404).send({ message: "You can't create an account if you are not subscribed to the company" })
+        console.log('ccccccccc')
+        res.status(401).send({ message: "You can't create an account if you are not subscribed to the company" })
         return;
     } else {
         // const password = req.body.password
         if (foundCustomer.password) {
-            res.status(200).send({ message: "An account with the provided identification number already exists" });
+            res.status(202).send({ message: "An account with the provided identification number already exists" });
             return;
         }
 
@@ -31,8 +32,10 @@ export const checkSignUp = async(req, res, next) => {
 const makeAccount = async(req, res) => {
     const id = req.body.id
     const password = req.body.password
+    const phonenumber = req.body.phoneNumber
     const hash = await hashPassword(password);
     await db.Customer.upsert({
+        PhoneNumber: phonenumber,
         id: req.body.id,
         password: hash,
         signedup: 1

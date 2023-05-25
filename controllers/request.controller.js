@@ -17,7 +17,7 @@ const create = async(req, res) => {
     })
 
     const status_id = await db.RequestStatus.findOne({ attributes: ['StatusID'], where: { StatusName: status } });
-
+    console.log(status_id);
     const request = await db.Request.create({
             Reason: req.body.reason,
             ServiceID: req.body.serviceID,

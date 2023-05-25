@@ -16,7 +16,7 @@ const Advertisement = (sequelize) => {
             allowNull: false
         },
         body: {
-            type: DataTypes.STRING(),
+            type: DataTypes.STRING,
             allowNull: false
         },
         image: {

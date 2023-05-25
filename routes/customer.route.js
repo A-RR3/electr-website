@@ -52,7 +52,7 @@ router.get('/services', async(req, res) => {
 
 });
 
-router.patch('/updateCustomerPassword', customerController.updateCustomerPassword)
+router.patch('/updateCustomerPassword:/', customerController.updateCustomerPassword)
 
 router.all('*', (req, res) => {
     res.status(404).send('<h1>resource not found</h1>')

@@ -18,7 +18,7 @@ router.post('/', userAuthentication, async(req, res, next) => {
                 console.log(err);
             }
         } else {
-            res.status(401).json({ 'message': 'No password found. Please sign up.' });
+            res.status(403).json({ 'message': 'No password found. Please sign up.' });
         }
     } catch (e) {
         console.log(e);

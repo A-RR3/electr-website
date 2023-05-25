@@ -84,7 +84,7 @@ const checkCustomer = async(id, password, req, res, next) => {
 
     }
     if (!customer) {
-        res.status(401).send({ 'message': 'Incorrect Identification Number' });
+        res.status(404).send({ 'message': 'Incorrect Identification Number' });
     }
 
 }
