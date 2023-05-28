@@ -48,23 +48,20 @@ const SubscriptionStatus = async(req, res, id) => {
     await request.save()
 }
 
-const propertyType = async(req, res, id) => {
-    const serviceID = req.body.serviceID
-    await db.Service.update({ PropertType: 'منزلي' }, {
+const propertyType = async(req, res, serviceID) => {
+    await db.Service.update({ PropertyType: 'منزلي' }, {
         where: {
             ServiceID: serviceID
         }
-    })
+    }).then(data => { console.log(data); }).catch(e => { console.log(e); })
 }
 
-const changeToCard = async(req, res, id) => {
-    const serviceID = req.body.serviceID
-    console.log(serviceID);
+const changeToCard = async(req, res, serviceID) => {
     await db.Service.update({ SubscriptionType: 'كرت' }, {
         where: {
             ServiceID: serviceID
         }
-    })
+    }).then(data => { console.log(data); }).catch(e => { console.log(e); })
 }
 
 const tenantDataModification = async(req, res, id) => {
@@ -244,15 +241,17 @@ const viewRequests = async(req, res, customerID) => {
 
 async function UpdateById(req, res) {
     const status = req.body.status;
-    const empNum = req.body.EmployeeID; ///////////?
+    const empNum = req.body.empNum; ///////////?
+    console.log(status, empNum);
     const status_id = await db.RequestStatus.findOne({ attributes: ['StatusID'], where: { StatusName: status } });
+    console.log(status_id.dataValues.StatusID);
     db.Request.update({
         StatusID: status_id.dataValues.StatusID,
         EmployeeID: empNum
     }, {
         where: { RequestID: req.body.id }
     }).then(result => {
-        res.status(200).send(result); // accepted
+        console.log("updated"); // accepted
     })
 
 }

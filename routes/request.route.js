@@ -86,34 +86,34 @@ router.post('/searchByName', async(req, res) => {
 
 router.put('/', async(req, res) => {
     try {
-        let serviceID;
+        let serviceId = req.body.serviceId;
         console.log(req.body);
-        //serviceID//type
-        const id = req.body.id
-        const request = await db.Request.findOne({ where: { RequestID: id }, attributes: ['ServiceID'] }, )
-            .then(data => { serviceID = data.dataValues.ServiceID }).catch(e => { console.log(e); })
-        console.log(serviceID);
-        if (req.body.status == 'منتهي') {
-            if (req.body.type == 'تحويل من فاتورة الى كرت') {
-                await requestController.changeToCard(req, res, serviceID);
+        if (req.body.status === 'منتهي') {
+            if (req.body.requestType == 'تحويل من فاتورة الى كرت') {
+                console.log(serviceId);
+                await requestController.changeToCard(req, res, serviceId);
             }
-            if (req.body.type == 'تحويل من تجاري الى منزلي') {
-                await requestController.propertyType(req, res, serviceID);
+            if (req.body.requestType == 'تحويل من تجاري الى منزلي') {
+                console.log(serviceId);
+                await requestController.propertyType(req, res, serviceId);
 
             }
-            if (req.body.type == 'تحويل من مؤقت الى دائم') {
-                console.log(serviceID);
+            if (req.body.requestType == 'تحويل من مؤقت الى دائم') {
+                console.log('equals');
+                console.log(serviceId);
                 await db.Service.update({ SubscriptionStatus: 'دائم' }, {
                         where: {
-                            ServiceID: serviceID
+                            ServiceID: serviceId
                         }
                     })
-                    // .then(res.sendStatus(200)).catch(e => { console.log(e); })
+                    .then(data => console.log(data)).catch(e => { console.log(e); })
             }
 
         }
+        console.log(222);
+
         await requestController.UpdateById(req, res)
-            // .then(res.sendStatus(200)).catch(e => { console.log(e); })
+            .then(res.sendStatus(200)).catch(e => { console.log(e); })
 
     } catch (error) {
         res.status(404).send(error); //not found
