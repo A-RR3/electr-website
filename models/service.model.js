@@ -14,6 +14,7 @@ const Service = (sequelize) => {
         },
         SubscriptionType: {
             type: DataTypes.STRING(6), //bill or card
+            defaultValue: 'مؤقت',
             allowNull: false
         },
         Address: {
@@ -28,12 +29,17 @@ const Service = (sequelize) => {
             type: DataTypes.DATEONLY
         },
         updatedAt: {
-            type: DataTypes.DATEONLY
-        }
+            type: DataTypes.DATE
+        },
+        PropertyType: {
+            type: DataTypes.STRING(10), //bill or card
+            allowNull: false,
+            defaultValue: 'تجاري'
+        },
+
     }, {
         timestamps: true,
         tableName: 'services',
-        updatedAt: false
     });
 };
 

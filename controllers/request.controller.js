@@ -3,7 +3,7 @@ import fs from 'fs'
 
 
 
-const create = async(req, res) => {
+const create = async(req, res, id) => {
 
     const type = req.body.appType;
     const status = req.body.appStatus;
@@ -19,24 +19,21 @@ const create = async(req, res) => {
     const status_id = await db.RequestStatus.findOne({ attributes: ['StatusID'], where: { StatusName: status } });
     console.log(status_id);
     const request = await db.Request.create({
-            Reason: req.body.reason,
-            ServiceID: req.body.serviceID,
-            TypeID: type_id.dataValues.TypeID,
-            StatusID: status_id.dataValues.StatusID,
-            EmployeeID: req.body.EmployeeID || null,
-            ApplicantName: req.body.applicantName,
-            ApplicantPhoneNumber: req.body.applicantPhoneNumber,
-            Address: req.body.Address
+        Reason: req.body.reason,
+        ServiceID: req.body.serviceID,
+        TypeID: type_id.dataValues.TypeID,
+        StatusID: status_id.dataValues.StatusID,
+        EmployeeID: req.body.EmployeeID || null,
+        ApplicantName: req.body.applicantName,
+        ApplicantPhoneNumber: req.body.applicantPhoneNumber,
+        Address: req.body.Address
 
-        }).then(data => {
-            res.status(201).send({
-                message: "Your request has been sent successfully",
-                data: data
-            })
+    }).then(data => {
+        res.status(201).send({
+            message: "Your request has been sent successfully",
+            data: data
         })
-        // res.send(request)
-        // await request.save()
-
+    })
 
 }
 
@@ -48,8 +45,26 @@ const SubscriptionStatus = async(req, res, id) => {
         ElectricianName: req.body.electricianName,
         ID: id[0][0].RequestID
     });
+    await request.save()
+}
 
-    res.status(201).send(data);
+const propertyType = async(req, res, id) => {
+    const serviceID = req.body.serviceID
+    await db.Service.update({ PropertType: 'منزلي' }, {
+        where: {
+            ServiceID: serviceID
+        }
+    })
+}
+
+const changeToCard = async(req, res, id) => {
+    const serviceID = req.body.serviceID
+    console.log(serviceID);
+    await db.Service.update({ SubscriptionType: 'كرت' }, {
+        where: {
+            ServiceID: serviceID
+        }
+    })
 }
 
 const tenantDataModification = async(req, res, id) => {
@@ -170,11 +185,13 @@ const findAll = async(req, res) => {
 
 };
 
-async function getOneRequest(id) {
+// async function getOneRequest(id) {
 
-    const request = await db.Request.findByPk(id)
-    return request;
-}
+//     const request = await db.Request.findByPk(id)
+//     return request;
+// }
+
+
 
 const viewRequests = async(req, res, customerID) => {
 
@@ -190,7 +207,7 @@ const viewRequests = async(req, res, customerID) => {
                 },
                 {
                     model: db.TenantData,
-                    attributes: ['TenantName'],
+                    attributes: ['TenantName', 'TenantImage', 'CustomerImage'],
                 },
                 {
                     model: db.TransferringPoles,
@@ -235,7 +252,7 @@ async function UpdateById(req, res) {
     }, {
         where: { RequestID: req.body.id }
     }).then(result => {
-        res.status(202).send(result); // accepted
+        res.status(200).send(result); // accepted
     })
 
 }
@@ -245,10 +262,12 @@ export default {
     create,
     findAll,
     // deleteById,
-    getOneRequest,
+    // getOneRequest,
     SubscriptionStatus,
     tenantDataModification,
     transferringPoles,
     UpdateById,
-    viewRequests
+    viewRequests,
+    propertyType,
+    changeToCard
 }

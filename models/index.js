@@ -115,19 +115,19 @@ db.Report.belongsTo(
     }
 );
 
-
-db.Employee.hasMany(
-    db.Advertisement, { foreignKey: "EmployeeID" }, {
-        onDelete: "SET NULL",
-        onUpdate: "CASCADE",
-    }
-);
 db.Advertisement.belongsTo(
     db.Employee, { foreignKey: "EmployeeID" }, {
         onDelete: "SET NULL",
         onUpdate: "CASCADE",
     }
 );
+db.Employee.hasMany(
+    db.Advertisement, { foreignKey: "EmployeeID" }, {
+        onDelete: "SET NULL",
+        onUpdate: "CASCADE",
+    }
+);
+
 
 db.Service.hasMany(
     db.Bill, { foreignKey: "ServiceID" }, {

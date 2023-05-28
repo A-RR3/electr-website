@@ -12,11 +12,6 @@ const upload = imageExtractor();
 router.get('/', requestController.findAll);
 
 
-// router.use('/create', uploadImagesMiddleware);
-router.use((err, req, res, next) => {
-    res.status(400).send(err.message)
-});
-
 //create a request
 router.post('/create', upload.fields([
     { name: 'reason', maxCount: 1 },
@@ -43,6 +38,8 @@ router.post('/create', upload.fields([
         await requestController.create(req, res);
         const id = await db.sequelize.query(`SELECT RequestID FROM requests ORDER BY createdAt DESC LIMIT 1;`)
         console.log(id[0][0].RequestID);
+
+
         if (req.body.appType == 'تعديل بيانات المستفيد') {
             await requestController.tenantDataModification(req, res, id);
         }
@@ -73,6 +70,10 @@ router.post('/searchByName', async(req, res) => {
     console.log(customerName);
     const customerID = await db.sequelize.query(`SELECT CustomerID FROM customers WHERE CustomerName = "${customerName}"`);
     console.log(customerID);
+    // if (customerID[0][0].CustomerID == undefined) {
+    //     res.sendStatus(404);
+    //     return;
+    // }
     console.log(customerID[0][0].CustomerID);
 
     await requestController.viewRequests(req, res, customerID).then(data => {
@@ -85,11 +86,37 @@ router.post('/searchByName', async(req, res) => {
 
 router.put('/', async(req, res) => {
     try {
+        let serviceID;
         console.log(req.body);
-        requestController.UpdateById(req, res);
+        //serviceID//type
+        const id = req.body.id
+        const request = await db.Request.findOne({ where: { RequestID: id }, attributes: ['ServiceID'] }, )
+            .then(data => { serviceID = data.dataValues.ServiceID }).catch(e => { console.log(e); })
+        console.log(serviceID);
+        if (req.body.status == 'منتهي') {
+            if (req.body.type == 'تحويل من فاتورة الى كرت') {
+                await requestController.changeToCard(req, res, serviceID);
+            }
+            if (req.body.type == 'تحويل من تجاري الى منزلي') {
+                await requestController.propertyType(req, res, serviceID);
+
+            }
+            if (req.body.type == 'تحويل من مؤقت الى دائم') {
+                console.log(serviceID);
+                await db.Service.update({ SubscriptionStatus: 'دائم' }, {
+                        where: {
+                            ServiceID: serviceID
+                        }
+                    })
+                    // .then(res.sendStatus(200)).catch(e => { console.log(e); })
+            }
+
+        }
+        await requestController.UpdateById(req, res)
+            // .then(res.sendStatus(200)).catch(e => { console.log(e); })
 
     } catch (error) {
         res.status(404).send(error); //not found
     }
-})
+});
 export default router;

@@ -16,19 +16,21 @@ const Report = (sequelize) => {
             allowNull: false
         },
         pdf: {
-            type: DataTypes.BLOB,
+            type: DataTypes.TEXT,
+            length: 'long',
             allowNull: false
         },
         coverImage: {
             type: DataTypes.TEXT,
+            length: 'long',
             allowNull: false
         },
         createdAt: {
             type: DataTypes.DATEONLY
         },
         updatedAt: {
-            type: DataTypes.DATEONLY
-        }
+            type: DataTypes.DATE
+        },
     }, {
         timestamps: true,
         freezeTableName: true

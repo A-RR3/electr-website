@@ -16,22 +16,24 @@ const Advertisement = (sequelize) => {
             allowNull: false
         },
         body: {
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(150),
             allowNull: false
         },
         image: {
             type: DataTypes.TEXT,
+            length: 'long',
             allowNull: false
         },
         coverImage: {
             type: DataTypes.TEXT,
+            length: 'long',
             allowNull: false
         },
         createdAt: {
             type: DataTypes.DATEONLY
         },
         updatedAt: {
-            type: DataTypes.DATEONLY
+            type: DataTypes.DATE
         }
     }, {
         timestamps: true,

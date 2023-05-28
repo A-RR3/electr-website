@@ -12,7 +12,6 @@ export const checkSignUp = async(req, res, next) => {
         where: { id: id }
     })
     if (!foundCustomer) {
-        console.log('ccccccccc')
         res.status(401).send({ message: "You can't create an account if you are not subscribed to the company" })
         return;
     } else {

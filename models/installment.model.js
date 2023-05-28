@@ -35,7 +35,7 @@ const Installment = (sequelize) => {
             type: DataTypes.DATEONLY
         },
         updatedAt: {
-            type: DataTypes.DATEONLY
+            type: DataTypes.DATE
         }
     }, {
         timestamps: true,

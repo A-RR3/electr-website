@@ -105,6 +105,7 @@ const viewServices = async(req, res, customerID) => {
                 'Address',
                 'SubscriptionStatus',
                 'createdAt',
+                'PropertyType'
             ],
             order: ['ServiceID'],
             where: { CustomerID: customerID },
