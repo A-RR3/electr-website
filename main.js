@@ -23,7 +23,7 @@ config();
 const PORT = process.env.PORT || 3000;
 const HOST = process.env.HOST;
 const app = express();
-// app.maxPayload = 50 * 1024 * 1024; // 50 MB
+app.maxPayload = 50 * 1024 * 1024 * 1024;
 
 //cross origin resource sharing
 app.use(cors());

@@ -99,103 +99,80 @@ export const employees_data = [{
 export const bills_data = [{
         Amount: 140.0,
         PainAmount: 140.0,
-        ServiceID: 4
+        ServiceID: 16
     },
     {
         Amount: 200.0,
         PainAmount: 200.0,
-        ServiceID: 4
+        ServiceID: 16
     }, {
         Amount: 50.0,
         PainAmount: 50.0,
-        ServiceID: 4
-    }, {
-        Amount: 250.0,
-        PainAmount: 250.0,
-        ServiceID: 5
-    }, {
-        Amount: 50.0,
-        PainAmount: 50.0,
-        ServiceID: 5
-    }, {
-        Amount: 50.0,
-        PainAmount: 50.0,
-        ServiceID: 5
+        ServiceID: 16
     },
+    // {
+    //     Amount: 250.0,
+    //     PainAmount: 250.0,
+    //     ServiceID: 5
+    // }, {
+    //     Amount: 50.0,
+    //     PainAmount: 50.0,
+    //     ServiceID: 5
+    // }, {
+    //     Amount: 50.0,
+    //     PainAmount: 50.0,
+    //     ServiceID: 5
+    // },
     {
         Amount: 250.0,
         PainAmount: 250.0,
-        ServiceID: 7
+        ServiceID: 12
     }, {
         Amount: 50.0,
         PainAmount: 50.0,
-        ServiceID: 7
+        ServiceID: 12
     }, {
         Amount: 50.0,
         PainAmount: 50.0,
-        ServiceID: 7
+        ServiceID: 12
     },
 ]
 
 
 export const installment_data = [{
-    Type: "رسوم اطفاء",
-    InstallmentNumber: 99999,
-    Amount: 3.0,
-    PaymentTimesNumber: 45,
-    CustomerID: 2
-}, {
-    Type: "رسوم اطفاء",
-    InstallmentNumber: 99999,
-    Amount: 3.0,
-    PaymentTimesNumber: 45,
-    CustomerID: 1
-}, {
-    Type: "رسوم اطفاء",
-    InstallmentNumber: 99999,
-    Amount: 3.0,
-    PaymentTimesNumber: 45,
-    CustomerID: 3
-}, {
-    Type: "شحنة ابتدائية",
-    InstallmentNumber: 1,
-    Amount: 100,
-    PaymentTimesNumber: 1,
-    CustomerID: 1
-}, {
-    Type: "شحنة ابتدائية",
-    InstallmentNumber: 1,
-    Amount: 100,
-    PaymentTimesNumber: 1,
-    CustomerID: 2
-}, {
-    Type: "شحنة ابتدائية",
-    InstallmentNumber: 1,
-    Amount: 100,
-    PaymentTimesNumber: 1,
-    CustomerID: 3
-}, {
-    Type: "رسوم نفايات",
-    InstallmentNumber: 5,
-    Amount: 78,
-    PaymentTimesNumber: 5,
-    CustomerID: 1
-}, {
-    Type: "رسوم نفايات",
-    InstallmentNumber: 5,
-    Amount: 78,
-    PaymentTimesNumber: 5,
-    CustomerID: 2
-}, {
-    Type: "رسوم نفايات",
-    InstallmentNumber: 5,
-    Amount: 78,
-    PaymentTimesNumber: 5,
-    CustomerID: 3
+    Type: "انارة شوارع",
+    InstallmentNumber: 7,
+    Amount: 2,
+    PaymentTimesNumber: 6,
+    CustomerID: 16
 }, {
     Type: "انارة شوارع",
     InstallmentNumber: 7,
     Amount: 2,
     PaymentTimesNumber: 6,
-    CustomerID: 1
+    CustomerID: 16
+}, {
+    Type: "شحنة ابتدائية",
+    InstallmentNumber: 1,
+    Amount: 100,
+    PaymentTimesNumber: 1,
+    CustomerID: 16
+}, {
+    Type: "شحنة ابتدائية",
+    InstallmentNumber: 1,
+    Amount: 100,
+    PaymentTimesNumber: 1,
+    CustomerID: 12
+}, {
+    Type: "شحنة ابتدائية",
+    InstallmentNumber: 1,
+    Amount: 250,
+    PaymentTimesNumber: 1,
+    CustomerID: 12
+}, {
+    Type: "انارة شوارع",
+    InstallmentNumber: 7,
+    Amount: 2,
+    PaymentTimesNumber: 6,
+    CustomerID: 12
 }]
